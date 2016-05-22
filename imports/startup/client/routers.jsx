@@ -15,3 +15,11 @@ FlowRouter.route("/", {
     });
   }
 });
+
+FlowRouter.route("/:id", {
+  action (params, queryParams) {
+    mount(AppContainer, {
+      content: <Document />
+    });
+  }
+});
