@@ -5,6 +5,22 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "meteor-node-stubs": "~0.2.0"
-  }
+    "meteor-node-stubs": "~0.2.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-mounter": "^1.2.0"
+  },
+  "version": "1.0.0",
+  "description": "save word to internet",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/domicode/text-to-internernet.git"
+  },
+  "author": "Flavio Pellanda, Dominique Schuwey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/domicode/text-to-internernet/issues"
+  },
+  "homepage": "https://github.com/domicode/text-to-internernet"
 }
