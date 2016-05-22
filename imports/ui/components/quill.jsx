@@ -14,4 +14,4 @@ export default Quill = ({name}) => (
       <RaisedButton label="Abbrechen" secondary={true} />
     </div>
   </div>
-
+)
