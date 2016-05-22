@@ -5,10 +5,15 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "jeet": "^6.1.2",
     "meteor-node-stubs": "~0.2.0",
+    "quill": "^0.20.1",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
-    "react-mounter": "^1.2.0"
+    "react-mounter": "^1.2.0",
+    "react-quill": "^0.4.1",
+    "rupture": "^0.6.1",
+    "s-grid": "^1.1.2"
   },
   "version": "1.0.0",
   "description": "save word to internet",
