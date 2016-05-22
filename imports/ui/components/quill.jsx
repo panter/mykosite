@@ -6,16 +6,25 @@ var onTextChange = function(value) {
   console.log(value);
 }
 
-var value = '<div> <span style="font-size: 18px;">Welcome to your μPage</span> </div> <div> <br> </div> <div> <span style="font-size: 14px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut nisi massa. Cras malesuada commodo dolor in ultricies. Morbi tempor enim sed dolor vulputate iaculis. Curabitur volutpat, ipsum eget suscipit laoreet, neque odio fringilla erat, in mattis est felis vel metus. Morbi lacinia tellus ac varius maximus. Proin id dolor elit. Nulla</span> </div>';
+var showValue = function(value) {
+  $('.quill').html("<a href='test'>yourDocumentName</a>");
+}
 
-export default Quill = ({name}) => (
-  <Card className="quill">
+const Quill = ({document}) => {
+
+  if (!document) {
+    return <div>blablaba</div>
+  }
+
+  (<Card className="quill">
     <CardText>
-      <ReactQuill theme="snow" value={value} onChange={onTextChange}/>
+      <ReactQuill theme="snow" value={document.text} onChange={onTextChange}/>
     </CardText>
     <CardActions className="bottom">
-      <RaisedButton label="Speichern" primary={true} />
+      <RaisedButton label="Speichern" primary={true} onClick={showValue} />
       <RaisedButton label="Abbrechen" secondary={true} />
     </CardActions>
   </Card>
-)
+)}
+
+export default Quill
