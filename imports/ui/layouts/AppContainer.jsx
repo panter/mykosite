@@ -9,7 +9,7 @@ export default ({header, content, footer}) => {
   return (
     <MuiThemeProvider muiTheme={theme}>
       <div>
-         <AppBar title="00000" className="app-bar"/> 
+         <AppBar title="Send text to the internet" className="app-bar"/>
         {content}
       </div>
     </MuiThemeProvider>
