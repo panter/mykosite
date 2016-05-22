@@ -7,7 +7,6 @@ babel-runtime@0.1.8
 base64@1.0.8
 binary-heap@1.0.8
 blaze@2.1.7
-blaze-html-templates@1.0.4
 blaze-tools@1.0.8
 boilerplate-generator@1.0.8
 caching-compiler@1.0.4
@@ -67,6 +66,7 @@ standard-minifier-css@1.0.6
 standard-minifier-js@1.0.6
 stylus@2.511.5
 templating@1.1.9
+static-html@1.0.7
 templating-tools@1.0.4
 tracker@1.0.13
 ui@1.0.11
