@@ -1,2 +1,2 @@
 import '../imports/startup/server/index.jsx'
-import '../imports/api/documents.js';
+import '../imports/api/Documents.js';
