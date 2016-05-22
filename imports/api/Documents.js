@@ -13,3 +13,11 @@ Documents.attachSchema({
 });
 
 global.Documents = Documents;
+
+
+if (Meteor.isServer) {
+  Meteor.publish("documents", () => {
+    return Documents.find();
+  });
+}
+
