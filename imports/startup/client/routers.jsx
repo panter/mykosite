@@ -1,11 +1,11 @@
 import React from 'react';
 import {mount} from 'react-mounter';
-import {MainLayout} from '/imports/ui/layouts/mainLayout.jsx';
+import AppContainer from '/imports/ui/layouts/AppContainer.jsx';
 import Content from '/imports/ui/components/content.jsx';
 
 FlowRouter.route("/", {
   action () {
-    mount(MainLayout, {
+    mount(AppContainer, {
       content: <Content name="Dominique" />
     });
   }
