@@ -23,7 +23,11 @@ Documents.attachSchema({
     defaultValue: 'document-name'
   },
   text: {
+<<<<<<< HEAD
     type: Strng,
+=======
+    type: String,
+>>>>>>> stash-branch
     defaultValue: 'Here goes your text'
   }
 });

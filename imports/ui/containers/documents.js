@@ -1,12 +1,12 @@
 import {composeWithTracker} from 'react-komposer'
-import Document from '/client/components/pictureList.jsx'
+import Document from 'Documentview'
 
 function composer (props, onData) {
-  const handle = Meteor.subscribe('pictures');
+  const handle = Meteor.subscribe('documents');
   if (handle.ready()) {
-    const pictures = Pictures.find().fetch();
-    onData(null, {pictures});
+    const document = Documents.findOne();
+    onData(null, {document});
   };
 };
 
-export default composeWithTracker(composer)(PictureList);
+export default composeWithTracker(composer)(Document);
