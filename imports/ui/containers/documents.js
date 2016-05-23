@@ -4,9 +4,13 @@ import { Documents } from '/imports/api/Documents.js'
 
 function composer (props, onData) {
   let id = FlowRouter.getParam('id');
+  if (!id) {
+    id = Documents.insert({});
+    FlowRouter.go('/' + id);
+  }
   const handle = Meteor.subscribe('documents', id);
   if (handle.ready()) {
-    const document = Documents.findOne();
+    const document = Documents.findOne(id);
     onData(null, {document});
   };
 };

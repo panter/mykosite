@@ -17,9 +17,6 @@ global.Documents = Documents;
 
 if (Meteor.isServer) {
   Meteor.publish("documents", (id) => {
-    if (!id) {
-      id = Documents.insert({});
-    }
     return Documents.find({_id: id});
   });
 }
