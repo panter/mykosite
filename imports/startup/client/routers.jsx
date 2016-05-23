@@ -18,7 +18,6 @@ var findOrCreateDocument = function (id) {
 
 FlowRouter.route("/", {
   action () {
-    findOrCreateDocument();
     mount(AppContainer, {
       content: <div>
           <Landing />

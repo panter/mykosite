@@ -5,6 +5,8 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "formsy-material-ui": "^0.4.3",
+    "formsy-react": "^0.18.0",
     "internal": "^1.0.8",
     "jeet": "^6.1.2",
     "material-ui": "^0.15.0",
