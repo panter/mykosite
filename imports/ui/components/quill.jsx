@@ -5,18 +5,19 @@ import {RaisedButton, Card, CardText, CardActions, Snackbar} from 'material-ui';
 var onTextChange = function(doc, text) {
   doc.saved = false;
   doc.text = text;
-}
+};
 
 var saveDocument = function(doc) {
   doc.saved = true;
   Meteor.call('document.update', doc);
-}
+};
 
 var deleteDocument = function (doc) {
   if (confirm('Do you want to delete the Document ' + doc.name)) {
     Meteor.call('document.remove', doc);
+    FlowRouter.go('/');
   }
-}
+};
 
 const Quill = ({document, editable}) => {
   if (!document) {
