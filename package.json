@@ -17,9 +17,11 @@
     "react-komposer": "^1.8.0",
     "react-mounter": "^1.2.0",
     "react-quill": "^0.4.1",
+    "react-social": "^1.3.0",
     "react-tap-event-plugin": "^1.0.0",
     "rupture": "^0.6.1",
-    "s-grid": "^1.1.2"
+    "s-grid": "^1.1.2",
+    "svg-social-icons": "^1.1.0"
   },
   "version": "1.0.0",
   "description": "save word to internet",
