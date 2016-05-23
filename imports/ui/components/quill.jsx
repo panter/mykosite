@@ -11,15 +11,22 @@ var onTextChange = function(doc, text) {
 }
 
 var saveDocument = function(doc) {
-  console.log('saved')
-  console.log(doc);
   Meteor.call('document.update', doc)
 }
 
-const Quill = ({document}) => {
+const Quill = ({document, editable}) => {
   if (!document) {
     return <div>No doc</div>
   }
+  if (!editable) {
+    return <Card className="document">
+      <CardText>
+          <div dangerouslySetInnerHTML={{__html: document.text}}/>
+      </CardText>
+    </Card>
+
+  }
+
   return (
     <Card className="quill">
       <CardText>
