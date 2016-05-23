@@ -1,4 +1,5 @@
 import { Mongo } from 'meteor/mongo';
+import { check } from 'meteor/check';
 
 export const Documents = new Mongo.Collection('documents');
 Documents.attachSchema({
@@ -25,3 +26,12 @@ if (Meteor.isServer) {
     return Documents.find({_id: id});
   });
 }
+
+
+Meteor.methods({
+  'document.update'(doc) {
+    check(doc, Object);
+
+    Documents.update(doc._id, { $set: { text: doc.text } });
+  }
+});
