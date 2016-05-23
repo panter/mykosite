@@ -4,6 +4,7 @@ import AppContainer from '/imports/ui/layouts/AppContainer.jsx';
 import Quill from '/imports/ui/components/quill.jsx'
 import Document from '/imports/ui/containers/documents.js'
 import Links from '/imports/ui/containers/links.js'
+import Landing from '/imports/ui/containers/landing.js'
 
 var findOrCreateDocument = function (id) {
     Meteor.call('findOrCreateDocument', id, (error, result) => {
@@ -19,8 +20,7 @@ FlowRouter.route("/", {
     findOrCreateDocument();
     mount(AppContainer, {
       content: <div>
-          <Document />
-          <Links />
+          <Landing />
       </div>
     });
   }
