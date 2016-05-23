@@ -11,10 +11,19 @@ const getName = function () {
 }
 
 const setName = function (name) {
+  FlowRouter.setQueryParams({ [name]: '' })
+}
+
+var name = undefined;
+var setNameReally = _.debounce(function () {
+  setName(name);
+}, 1000)
+
+var setNameDebounced =  function (newName) {
+  name = newName
   FlowRouter.setQueryParams({ [getName()]: null })
   Session.set({documentId: null}) 
-
-  FlowRouter.setQueryParams({ [name]: '' })
+  setNameReally();
 }
 
 const Landing = ({document}) =>  {
@@ -29,7 +38,7 @@ const Landing = ({document}) =>  {
   return (<Card className="landing section">
     <CardText>
       <Formsy.Form onValidSubmit={create}>
-        <FormsyText name='keyword' className='keyword' value={getName()} floatingLabelText="Keyword" onChange={(e) => setName(e.target.value)} autocomplete='off'/>
+        <FormsyText name='keyword' className='keyword' value={getName()} floatingLabelText="Keyword" onChange={(e) => setNameDebounced(e.target.value)} autocomplete='off'/>
         <RaisedButton type="submit" label="Create New Page..." disabled={document}/>
   
       </Formsy.Form>
@@ -37,9 +46,11 @@ const Landing = ({document}) =>  {
   </Card>)
 }
 
+var handle;
+
 function composer (props, onData) {
   FlowRouter.watchPathChange()
-  const handle = Meteor.subscribe('documentsByName', getName());
+  handle = Meteor.subscribe('documentsByName', getName());
   if (handle.ready()) {
     const document = Documents.findOne({ name: getName() });
     if (document) {
