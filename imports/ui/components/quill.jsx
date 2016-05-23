@@ -3,18 +3,25 @@ import ReactQuill from 'react-quill';
 import {RaisedButton, Card, CardText, CardActions, Snackbar} from 'material-ui';
 
 var onTextChange = function(doc, text) {
-  doc.text = text;
   doc.saved = false;
-}
+  doc.text = text;
+};
 
 var saveDocument = function(doc) {
   doc.saved = true;
-  Meteor.call('document.update', doc)
-}
+  Meteor.call('document.update', doc);
+};
 
-var handleRequestClose = function () {
-  //
-}
+var deleteDocument = function (doc) {
+  if (confirm('Do you want to delete the Document ' + doc.name)) {
+    Meteor.call('document.remove', doc);
+    FlowRouter.go('/');
+  }
+};
+
+var refreshDocument = function (doc) {
+  window.location.reload();
+};
 
 const Quill = ({document, editable}) => {
   if (!document) {
@@ -36,14 +43,14 @@ const Quill = ({document, editable}) => {
           <ReactQuill theme="snow" value={document.text} onChange={onTextChange.bind(this, document)}/>
         </CardText>
         <CardActions className="bottom">
-          <RaisedButton label="Speichern" primary={true} onClick={saveDocument.bind(this, document)} />
-          <RaisedButton label="Abbrechen" secondary={true} />
+          <RaisedButton label="Speichern" primary={true} onClick={saveDocument.bind(this, document)}/>
+          <RaisedButton label="Abbrechen" default={true} onClick={refreshDocument.bind(this, document)}/>
+          <RaisedButton label="Dokument Löschen" secondary={true} onClick={deleteDocument.bind(this, document)}/>
         </CardActions>
       </Card>
       <Snackbar
         open={document.saved}
         message="Document saved"
-        autoHideDuration={4000}
       />
     </div>
   )
