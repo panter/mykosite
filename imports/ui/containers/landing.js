@@ -33,9 +33,8 @@ var progress = function (loading) {
 }
 const Landing = ({document, loading}) =>  {
   const create = function () {
-    
     var id = Documents.insert({name: getName()});
-    Session.set({documentName: id}) 
+    FlowRouter.setQueryParams({uuid: id})
   }
 
   $('.keyword input').attr('autocomplete', 'off')
