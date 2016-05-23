@@ -5,8 +5,12 @@ export const Documents = new Mongo.Collection('documents');
 Documents.attachSchema({
   name: {
     type: String,
-    defaultValue: 'document-name',
     unique: true
+  },
+  token: {
+    type: String,
+    unique: true,
+    autoValue: Meteor.uuid
   },
   text: {
     type: String,
@@ -22,11 +26,6 @@ global.Documents = Documents;
 
 
 if (Meteor.isServer) {
-  Meteor.methods({findOrCreateDocument: (name) => {
-    var doc = Documents.findOne({name});
-    return (doc && doc._id) || Documents.insert({});
-  }});
-
   Meteor.publish("documents", (id) => {
     return Documents.find({_id: id});
   });

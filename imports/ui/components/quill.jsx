@@ -18,10 +18,10 @@ var handleRequestClose = function () {
 
 const Quill = ({document, editable}) => {
   if (!document) {
-    return <div>No doc</div>
+    return <div></div>
   }
   if (!editable) {
-    return <Card className="document">
+    return <Card className="document section">
       <CardText>
           <div dangerouslySetInnerHTML={{__html: document.text}}/>
       </CardText>

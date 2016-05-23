@@ -6,7 +6,7 @@ import { Session } from 'meteor/session'
 function composer (props, onData) {
   const handle = Meteor.subscribe('documents', Session.get('documentId'));
   if (handle.ready()) {
-    const document = Documents.findOne({});
+    const document = Documents.findOne({ _id: Session.get('documentId')});
     var editable = document && document._id == FlowRouter.getQueryParam('uuid')
     onData(null, {document, editable});
   };
