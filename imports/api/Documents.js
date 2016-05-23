@@ -11,6 +11,10 @@ Documents.attachSchema({
   text: {
     type: String,
     defaultValue: '<div> <span style="font-size: 18px;">Welcome to your μPage</span> </div> <div> <br> </div> <div> <span style="font-size: 14px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut nisi massa. Cras malesuada commodo dolor in ultricies. Morbi tempor enim sed dolor vulputate iaculis. Curabitur volutpat, ipsum eget suscipit laoreet, neque odio fringilla erat, in mattis est felis vel metus. Morbi lacinia tellus ac varius maximus. Proin id dolor elit. Nulla</span> </div>'
+  },
+  saved: {
+    type: Boolean,
+    defaultValue: false
   }
 });
 
@@ -33,6 +37,6 @@ Meteor.methods({
   'document.update'(doc) {
     check(doc, Object);
 
-    Documents.update(doc._id, { $set: { text: doc.text } });
+    Documents.update(doc._id, { $set: { text: doc.text, saved: true }});
   }
 });

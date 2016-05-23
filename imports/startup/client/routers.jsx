@@ -22,7 +22,7 @@ FlowRouter.route("/", {
     mount(AppContainer, {
       content: <div>
           <Landing />
-          <Document saved={false}/>
+          <Document />
           <Links />
       </div>
     });
@@ -34,7 +34,7 @@ FlowRouter.route("/:id", {
     findOrCreateDocument(params.id)
     mount(AppContainer, {
       content: <div>
-          <Document saved={false}/>
+          <Document/>
           <Links />
       </div>
     });

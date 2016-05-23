@@ -4,18 +4,19 @@ import {RaisedButton, Card, CardText, CardActions, Snackbar} from 'material-ui';
 
 var onTextChange = function(doc, text) {
   doc.text = text;
+  doc.saved = false;
 }
 
-var saveDocument = function(doc, saved) {
+var saveDocument = function(doc) {
+  doc.saved = true;
   Meteor.call('document.update', doc)
-  saved = true;
 }
 
 var handleRequestClose = function () {
   //
 }
 
-const Quill = ({document, editable, saved}) => {
+const Quill = ({document, editable}) => {
   if (!document) {
     return <div>No doc</div>
   }
@@ -35,15 +36,14 @@ const Quill = ({document, editable, saved}) => {
           <ReactQuill theme="snow" value={document.text} onChange={onTextChange.bind(this, document)}/>
         </CardText>
         <CardActions className="bottom">
-          <RaisedButton label="Speichern" primary={true} onClick={saveDocument.bind(this, document, saved)} />
+          <RaisedButton label="Speichern" primary={true} onClick={saveDocument.bind(this, document)} />
           <RaisedButton label="Abbrechen" secondary={true} />
         </CardActions>
       </Card>
       <Snackbar
-        open={saved}
+        open={document.saved}
         message="Document saved"
         autoHideDuration={4000}
-        onRequestClose={handleRequestClose}
       />
     </div>
   )

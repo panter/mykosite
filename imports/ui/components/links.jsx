@@ -1,7 +1,6 @@
 import React from 'react';
 import {Paper} from 'material-ui';
 
-<<<<<<< 65a0f01d248c9b6d8ac3e4fe9ee0a47ac8d50c43
 const link = function (document, editable) {
   var path = '/' + document.name
   if (editable) {
