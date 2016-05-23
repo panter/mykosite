@@ -19,6 +19,10 @@ var deleteDocument = function (doc) {
   }
 };
 
+var refreshDocument = function (doc) {
+  window.location.reload();
+};
+
 const Quill = ({document, editable}) => {
   if (!document) {
     return <div>No doc</div>
@@ -39,8 +43,8 @@ const Quill = ({document, editable}) => {
           <ReactQuill theme="snow" value={document.text} onChange={onTextChange.bind(this, document)}/>
         </CardText>
         <CardActions className="bottom">
-          <RaisedButton label="Speichern" primary={true} onClick={saveDocument.bind(this, document)} />
-          <RaisedButton label="Abbrechen" default={true} />
+          <RaisedButton label="Speichern" primary={true} onClick={saveDocument.bind(this, document)}/>
+          <RaisedButton label="Abbrechen" default={true} onClick={refreshDocument.bind(this, document)}/>
           <RaisedButton label="Dokument Löschen" secondary={true} onClick={deleteDocument.bind(this, document)}/>
         </CardActions>
       </Card>
