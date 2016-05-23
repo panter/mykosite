@@ -20,7 +20,6 @@ const Quill = ({document}) => {
   if (!document) {
     return <div>No doc</div>
   }
-
   return (
     <Card className="quill">
       <CardText>
