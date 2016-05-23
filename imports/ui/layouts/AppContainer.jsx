@@ -2,7 +2,7 @@ import theme from "./theme.jsx";
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import {AppBar, Styles, RaisedButton, DatePicker} from 'material-ui';
+import {AppBar, Styles, RaisedButton, DatePicker, Snackbar} from 'material-ui';
 
 export default ({header, content, footer}) => {
 
