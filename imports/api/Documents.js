@@ -26,10 +26,6 @@ global.Documents = Documents;
 
 
 if (Meteor.isServer) {
-  Meteor.publish("documents", (id) => {
-    return Documents.find({_id: id});
-  });
-
   Meteor.publish("documentsByName", (name) => {
     return Documents.find({name: name});
   });
