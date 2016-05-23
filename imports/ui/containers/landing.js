@@ -12,6 +12,8 @@ const getName = function () {
 
 const setName = function (name) {
   FlowRouter.setQueryParams({ [getName()]: null })
+  Session.set({documentId: null}) 
+
   FlowRouter.setQueryParams({ [name]: '' })
 }
 

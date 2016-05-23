@@ -1,0 +1,1 @@
+global.Subs = new SubsManager();
