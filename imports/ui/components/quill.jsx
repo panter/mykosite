@@ -10,7 +10,12 @@ var showValue = function(value) {
   $('.quill').html("<a href='test'>yourDocumentName</a>");
 }
 
-const Quill = ({document}) => (<Card className="quill">
+const Quill = ({document}) => {
+  if (!document) {
+    return <div>No doc</div>
+  }
+
+  return (<Card className="quill">
     <CardText>
       <ReactQuill theme="snow" value={document.text} onChange={onTextChange}/>
     </CardText>
@@ -18,7 +23,7 @@ const Quill = ({document}) => (<Card className="quill">
       <RaisedButton label="Speichern" primary={true} onClick={showValue} />
       <RaisedButton label="Abbrechen" secondary={true} />
     </CardActions>
-  </Card>
-)
+  </Card>)
+}
 
 export default Quill

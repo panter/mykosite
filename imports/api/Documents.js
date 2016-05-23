@@ -16,6 +16,11 @@ global.Documents = Documents;
 
 
 if (Meteor.isServer) {
+  Meteor.methods({findOrCreateDocument: (id) => {
+    var doc = Documents.findOne(id);
+    return (doc && doc._id) || Documents.insert({});
+  }});
+
   Meteor.publish("documents", (id) => {
     return Documents.find({_id: id});
   });

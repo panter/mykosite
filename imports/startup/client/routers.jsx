@@ -5,8 +5,18 @@ import Quill from '/imports/ui/components/quill.jsx'
 import Document from '/imports/ui/containers/documents.js'
 import Links from '/imports/ui/containers/links.js'
 
+var findOrCreateDocument = function (id) {
+    Meteor.call('findOrCreateDocument', id, (error, result) => {
+      if (error) {
+        return;
+      }
+      Session.set({ documentId: result })
+    });
+}
+
 FlowRouter.route("/", {
   action () {
+    findOrCreateDocument();
     mount(AppContainer, {
       content: <div>
           <Document />
@@ -18,8 +28,12 @@ FlowRouter.route("/", {
 
 FlowRouter.route("/:id", {
   action (params, queryParams) {
+    findOrCreateDocument(params.id)
     mount(AppContainer, {
-      content: <Document />
+      content: <div>
+          <Document />
+          <Links />
+      </div>
     });
   }
 });

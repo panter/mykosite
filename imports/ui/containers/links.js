@@ -3,9 +3,9 @@ import Links from '/imports/ui/components/links.jsx'
 import { Documents } from '/imports/api/Documents.js'
 
 function composer (props, onData) {
-  const handle = Meteor.subscribe('documents');
+  const handle = Meteor.subscribe('documents', Session.get('documentId'));
   if (handle.ready()) {
-    const document = Documents.findOne(Documents.insert({}));
+    const document = Documents.findOne({});
     onData(null, {document});
   };
 };

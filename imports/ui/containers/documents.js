@@ -1,16 +1,12 @@
 import {composeWithTracker} from 'react-komposer'
 import Quill from '/imports/ui/components/quill.jsx'
 import { Documents } from '/imports/api/Documents.js'
+import { Session } from 'meteor/session'
 
 function composer (props, onData) {
-  let id = FlowRouter.getParam('id');
-  if (!id) {
-    id = Documents.insert({});
-    FlowRouter.go('/' + id);
-  }
-  const handle = Meteor.subscribe('documents', id);
+  const handle = Meteor.subscribe('documents', Session.get('documentId'));
   if (handle.ready()) {
-    const document = Documents.findOne(id);
+    const document = Documents.findOne({});
     onData(null, {document});
   };
 };
