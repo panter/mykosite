@@ -4,10 +4,12 @@ import {RaisedButton, Card, CardText, CardActions, Snackbar} from 'material-ui';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentEdit from 'material-ui/svg-icons/content/create';
 import Fullscreen from 'material-ui/svg-icons/navigation/fullscreen';
+import FullscreenExit from 'material-ui/svg-icons/navigation/fullscreen-exit';
 
 var text;
 var saved = new ReactiveVar(false);
 var dirty = new ReactiveVar(false);
+var isFullscreen = new ReactiveVar(false);
 
 var onTextChange = function(doc, txt) {
   dirty.set(true);
@@ -44,7 +46,31 @@ var closeDocument = function (doc) {
 };
 
 var fullscreen = function () {
-  $('.document')[0].webkitRequestFullscreen()
+  var el = $('.document')[0];
+  if (!document.fullscreenElement &&    // alternative standard method
+      !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
+    isFullscreen.set(true)
+    if (el.requestFullscreen) {
+      el.requestFullscreen();
+    } else if (el.msRequestFullscreen) {
+      el.msRequestFullscreen();
+    } else if (el.mozRequestFullScreen) {
+      el.mozRequestFullScreen();
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    }
+  } else {
+    isFullscreen.set(false)
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
 }
 
 const Quill = ({document, editable, editing}) => {
@@ -56,7 +82,9 @@ const Quill = ({document, editable, editing}) => {
       <CardText>
           <div dangerouslySetInnerHTML={{__html: document.text}}/>
       </CardText>
-      <FloatingActionButton className="fullscreen" onClick={fullscreen}><Fullscreen/></FloatingActionButton>
+      <FloatingActionButton className="fullscreen" onClick={fullscreen}>
+        { isFullscreen.get() ? <FullscreenExit/> : <Fullscreen/> }
+      </FloatingActionButton>
       { editable ? <FloatingActionButton className="edit" onClick={editDocument.bind(this, document)}><ContentEdit/></FloatingActionButton> : '' }
     </Card>
   }
