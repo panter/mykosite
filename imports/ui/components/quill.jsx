@@ -4,14 +4,23 @@ import {RaisedButton, Card, CardText, CardActions, Snackbar} from 'material-ui';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentEdit from 'material-ui/svg-icons/content/create';
 
-var onTextChange = function(doc, text) {
-  doc.saved = false;
-  doc.text = text;
+var text;
+var saved = new ReactiveVar(false);
+var dirty = new ReactiveVar(false);
+
+var onTextChange = function(doc, txt) {
+  dirty.set(true);
+  text = txt;
 };
 
 var saveDocument = function(doc) {
-  doc.saved = true;
+  doc.text = text;
+  dirty.set(false);
+  saved.set(true);
   Meteor.call('document.update', doc);
+  _.debounce(function () {
+    saved.set(false);
+  }, 2000)();
 };
 
 var deleteDocument = function (doc) {
@@ -21,11 +30,20 @@ var deleteDocument = function (doc) {
   }
 };
 
-var refreshDocument = function (doc) {
-  window.location.reload();
+var editDocument = function (doc) {
+  dirty.set(false);
+  doc.editing = Meteor.userId();
+  text = doc.text;
+  Meteor.call('document.update', doc);
+};
+
+var closeDocument = function (doc) {
+  doc.editing = null;
+  Meteor.call('document.update', doc);
 };
 
 const Quill = ({document, editable, editing}) => {
+  console.log('quill:' + JSON.stringify({document, editable, editing}));
   if (!document) {
     return <div></div>
   }
@@ -34,7 +52,7 @@ const Quill = ({document, editable, editing}) => {
       <CardText>
           <div dangerouslySetInnerHTML={{__html: document.text}}/>
       </CardText>
-      { editable ? <FloatingActionButton className="edit"><ContentEdit/></FloatingActionButton> : '' }
+      { editable ? <FloatingActionButton className="edit" onClick={editDocument.bind(this, document)}><ContentEdit/></FloatingActionButton> : '' }
     </Card>
   }
 
@@ -45,13 +63,13 @@ const Quill = ({document, editable, editing}) => {
           <ReactQuill theme="snow" value={document.text} onChange={onTextChange.bind(this, document)}/>
         </CardText>
         <CardActions className="bottom">
-          <RaisedButton label="Speichern" primary={true} onClick={saveDocument.bind(this, document)}/>
-          <RaisedButton label="Abbrechen" default={true} onClick={refreshDocument.bind(this, document)}/>
+          <RaisedButton label="Speichern" primary={true} onClick={saveDocument.bind(this, document)} disabled={!dirty.get()}/>
+          <RaisedButton label={dirty.get() ? 'Verwerfen' : 'Schliessen'} default={true} onClick={closeDocument.bind(this, document)}/>
           <RaisedButton label="Dokument Löschen" secondary={true} onClick={deleteDocument.bind(this, document)}/>
         </CardActions>
       </Card>
       <Snackbar
-        open={document.saved}
+        open={saved.get()}
         message="Document saved"
       />
     </div>

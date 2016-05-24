@@ -65,8 +65,7 @@ Meteor.methods({
    },
   'document.update'(doc) {
     check(doc, Object);
-
-    Documents.update(doc._id, { $set: { text: doc.text, saved: true }});
+    Documents.update(doc._id, { $set: { text: doc.text, saved: true, editing: doc.editing }});
   },
 
   'document.remove'(doc) {
