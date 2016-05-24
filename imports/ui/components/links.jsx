@@ -1,5 +1,5 @@
 import React from 'react';
-import {Paper} from 'material-ui';
+import {Paper, RaisedButton} from 'material-ui';
 import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
 import EyeIcon from 'material-ui/svg-icons/image/remove-red-eye';
@@ -15,6 +15,14 @@ const viewLink = function (document) {
     return <a href={path}>{window.location.host}{path}</a>;
 }
 
+const createPDF = (document) => {
+  var pdf = new jsPDF();
+  pdf.fromHTML($('.document').get(0), 15, 15, {
+    'width': 210
+  });
+  pdf.save('Test.pdf');
+};
+
 const Links = ({document}) => {
   if (!document) {
     return <div></div>
@@ -29,6 +37,7 @@ const Links = ({document}) => {
       </span>
     <Badge badgeContent={document.watchingCount} secondary={true} className="badge" > <EyeIcon /> </Badge>
     <Badge badgeContent={document.visitorsCount} secondary={true} className="badge" > <PeopleIcon /> </Badge>
+    <RaisedButton onClick={createPDF}>PDF</RaisedButton>
   </Paper>)
 }
 

@@ -27,3 +27,4 @@ accounts-base
 artwells:accounts-guest
 check
 random
+jspdf:core
