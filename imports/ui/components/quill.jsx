@@ -25,16 +25,18 @@ var refreshDocument = function (doc) {
   window.location.reload();
 };
 
-const Quill = ({document, editable}) => {
+const Quill = ({document, editable, editing}) => {
   if (!document) {
     return <div></div>
   }
-  return <Card className="document section">
-    <CardText>
-        <div dangerouslySetInnerHTML={{__html: document.text}}/>
-    </CardText>
-    { editable ? <FloatingActionButton className="edit"><ContentEdit/></FloatingActionButton> : '' }
-  </Card>
+  if (!editing) {
+    return <Card className="document section">
+      <CardText>
+          <div dangerouslySetInnerHTML={{__html: document.text}}/>
+      </CardText>
+      { editable ? <FloatingActionButton className="edit"><ContentEdit/></FloatingActionButton> : '' }
+    </Card>
+  }
 
   return (
     <div>

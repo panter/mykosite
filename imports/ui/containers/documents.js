@@ -9,7 +9,7 @@ function composer (props, onData) {
     const document = Documents.findOne({ name: Session.get('documentName')});
     var editable = document && document.userId == Meteor.userId()
     var editing = document && document.editing == Meteor.userId()
-    onData(null, {document, editable});
+    onData(null, {document, editable, editing});
   };
 };
 
