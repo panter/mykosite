@@ -12,6 +12,7 @@ FlowRouter.route("/", {
     if (token) {
       Meteor.call('user.addToken', token);
     }
+    document.title = "Mykosite";
     mount(AppContainer, {
       content: <div>
           <Landing />
