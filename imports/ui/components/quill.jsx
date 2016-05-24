@@ -3,6 +3,7 @@ import ReactQuill from 'react-quill';
 import {RaisedButton, Card, CardText, CardActions, Snackbar} from 'material-ui';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentEdit from 'material-ui/svg-icons/content/create';
+import Fullscreen from 'material-ui/svg-icons/navigation/fullscreen';
 
 var text;
 var saved = new ReactiveVar(false);
@@ -42,6 +43,10 @@ var closeDocument = function (doc) {
   Meteor.call('document.update', doc);
 };
 
+var fullscreen = function () {
+  $('.document')[0].webkitRequestFullscreen()
+}
+
 const Quill = ({document, editable, editing}) => {
   if (!document) {
     return <div></div>
@@ -51,6 +56,7 @@ const Quill = ({document, editable, editing}) => {
       <CardText>
           <div dangerouslySetInnerHTML={{__html: document.text}}/>
       </CardText>
+      <FloatingActionButton className="fullscreen" onClick={fullscreen}><Fullscreen/></FloatingActionButton>
       { editable ? <FloatingActionButton className="edit" onClick={editDocument.bind(this, document)}><ContentEdit/></FloatingActionButton> : '' }
     </Card>
   }
