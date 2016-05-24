@@ -24,8 +24,7 @@ Documents.attachSchema({
   },
   token: {
     type: String,
-    unique: true,
-    autoValue: Meteor.uuid
+    unique: true
   },
   text: {
     type: String,
@@ -61,6 +60,7 @@ Meteor.methods({
   'document.insert'(doc) {
     check(doc, Object);
     doc.userId = this.userId
+    doc.token = Meteor.uuid();
     return Documents.insert(doc);
    },
   'document.update'(doc) {
