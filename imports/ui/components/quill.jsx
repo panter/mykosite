@@ -43,7 +43,6 @@ var closeDocument = function (doc) {
 };
 
 const Quill = ({document, editable, editing}) => {
-  console.log('quill:' + JSON.stringify({document, editable, editing}));
   if (!document) {
     return <div></div>
   }

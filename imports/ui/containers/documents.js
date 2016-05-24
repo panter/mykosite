@@ -7,10 +7,11 @@ function composer (props, onData) {
   const handle = Subs.subscribe('documentsByName', Session.get('documentName'));
   if (handle.ready()) {
     const document = Documents.findOne({ name: Session.get('documentName')});
-    var editable = document && document.userId == Meteor.userId()
-    var editing = document && document.editing == Meteor.userId()
+    const docName = FlowRouter.getParam("docName");
+    var editable = document && document.userId == Meteor.userId() && !docName;
+    var editing = document && document.editing == Meteor.userId() && !docName;
     onData(null, {document, editable, editing});
-  };
-};
+  }
+}
 
 export default composeWithTracker(composer)(Quill);

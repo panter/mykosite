@@ -17,3 +17,12 @@ FlowRouter.route("/", {
     });
   }
 });
+
+FlowRouter.route("/:docName", {
+  action (params) {
+    Session.set('documentName', params.docName);
+    mount(AppContainer, {
+      content: <div><Document /></div>
+    });
+  }
+});
