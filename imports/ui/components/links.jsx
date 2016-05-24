@@ -1,5 +1,9 @@
 import React from 'react';
 import {Paper} from 'material-ui';
+import Badge from 'material-ui/Badge';
+import IconButton from 'material-ui/IconButton';
+import EyeIcon from 'material-ui/svg-icons/image/remove-red-eye';
+import PeopleIcon from 'material-ui/svg-icons/social/people';
 
 const link = function (document, editable) {
   var path = '?' + document.name
@@ -22,6 +26,8 @@ const Links = ({document}) => {
       <span>
         Edit link: &nbsp; {link(document, true)}
       </span>
+    <Badge badgeContent={document.watchingCount} secondary={true} className="badge" > <EyeIcon /> </Badge>
+    <Badge badgeContent={document.visitorsCount} secondary={true} className="badge" > <PeopleIcon /> </Badge>
   </Paper>)
 }
 

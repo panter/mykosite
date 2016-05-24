@@ -14,6 +14,14 @@ Documents.attachSchema({
     type: String,
     optional: true
   },
+  watchingCount: {
+    type: Number,
+    defaultValue: 0
+  },
+  visitorsCount: {
+    type: Number,
+    defaultValue: 0
+  },
   token: {
     type: String,
     unique: true,
@@ -33,8 +41,18 @@ global.Documents = Documents;
 
 
 if (Meteor.isServer) {
-  Meteor.publish("documentsByName", (name) => {
-    return Documents.find({name: name});
+  Documents.update({}, { $set: { watchingCount: 0 } }, { multi: true });
+
+  Meteor.publish("documentsByName", function (name) {
+    console.log(name)
+    var docs = Documents.find({name: name});
+    var doc = Documents.findOne({name: name})
+    this.onStop(() => {
+      if (doc) Documents.update({ _id: doc._id}, { $inc: { watchingCount: -1 }})
+    })
+    if (doc) Documents.update({ _id: doc._id},
+                              { $inc: { watchingCount: 1, visitorsCount: 1 }})
+    return docs;
   });
 }
 

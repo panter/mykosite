@@ -55,7 +55,7 @@ var handle;
 
 function composer (props, onData) {
   var name = getName();
-  handle = Meteor.subscribe('documentsByName', name);
+  handle = Subs.subscribe('documentsByName', name);
   var document;
   if (handle.ready()) {
     document = Documents.findOne({ name: name });
