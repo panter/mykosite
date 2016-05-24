@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
 import {RaisedButton, Card, CardText, CardActions, Snackbar} from 'material-ui';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentEdit from 'material-ui/svg-icons/content/create';
 
 var onTextChange = function(doc, text) {
   doc.saved = false;
@@ -27,14 +29,12 @@ const Quill = ({document, editable}) => {
   if (!document) {
     return <div></div>
   }
-  if (!editable) {
-    return <Card className="document section">
-      <CardText>
-          <div dangerouslySetInnerHTML={{__html: document.text}}/>
-      </CardText>
-    </Card>
-
-  }
+  return <Card className="document section">
+    <CardText>
+        <div dangerouslySetInnerHTML={{__html: document.text}}/>
+    </CardText>
+    { editable ? <FloatingActionButton className="edit"><ContentEdit/></FloatingActionButton> : '' }
+  </Card>
 
   return (
     <div>

@@ -7,6 +7,13 @@ Documents.attachSchema({
     type: String,
     unique: true
   },
+  userId: {
+    type: String
+  },
+  editing: {
+    type: String,
+    optional: true
+  },
   token: {
     type: String,
     unique: true,

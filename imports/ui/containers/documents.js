@@ -7,7 +7,8 @@ function composer (props, onData) {
   const handle = Subs.subscribe('documentsByName', Session.get('documentName'));
   if (handle.ready()) {
     const document = Documents.findOne({ name: Session.get('documentName')});
-    var editable = document && document._id == FlowRouter.getQueryParam('uuid')
+    var editable = document && document.userId == Meteor.userId()
+    var editing = document && document.editing == Meteor.userId()
     onData(null, {document, editable});
   };
 };
