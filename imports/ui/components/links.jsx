@@ -6,7 +6,7 @@ import EyeIcon from 'material-ui/svg-icons/image/remove-red-eye';
 import PeopleIcon from 'material-ui/svg-icons/social/people';
 
 const editLink = function (document) {
-  var path = '?' + document.name + '&uuid=' + document._id;
+  var path = '?' + document.name + '&token=' + document.token;
   return <a href={path}>{window.location.host}{path}</a>;
 }
 

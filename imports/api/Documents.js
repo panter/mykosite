@@ -35,15 +35,21 @@ Documents.attachSchema({
     defaultValue: false
   }
 });
+Documents.helpers = {
+  canEdit(document) {
+    if (!document) return false;
+    var user = Meteor.user();
+    if (!user) return false;
+    return document.userId == user._id || _.include(user.tokens, document.token);
+  }
+}
 
 global.Documents = Documents;
-
 
 if (Meteor.isServer) {
   Documents.update({}, { $set: { watchingCount: 0 } }, { multi: true });
 
   Meteor.publish("documentsByName", function (name) {
-    console.log(name)
     var docs = Documents.find({name: name});
     var doc = Documents.findOne({name: name})
     this.onStop(() => {
@@ -55,7 +61,6 @@ if (Meteor.isServer) {
   });
 }
 
-
 Meteor.methods({
   'document.insert'(doc) {
     check(doc, Object);
@@ -65,6 +70,14 @@ Meteor.methods({
    },
   'document.update'(doc) {
     check(doc, Object);
+
+    var current = Documents.findOne({_id: doc._id});
+    if (!current) throw new Error('Document not found:' + JSON.stringify(doc._id));
+
+    if (!Documents.helpers.canEdit(current)) {
+      throw new Error('Access Denied');
+    }
+
     Documents.update(doc._id, { $set: { text: doc.text, saved: true, editing: doc.editing }});
   },
 

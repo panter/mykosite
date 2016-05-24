@@ -8,8 +8,8 @@ function composer (props, onData) {
   if (handle.ready()) {
     const document = Documents.findOne({ name: Session.get('documentName')});
     const docName = FlowRouter.getParam("docName");
-    var editable = document && document.userId == Meteor.userId() && !docName;
     var editing = document && document.editing == Meteor.userId() && !docName;
+    var editable = Documents.helpers.canEdit(document) && !docName && !document.editing;
     onData(null, {document, editable, editing});
   }
 }

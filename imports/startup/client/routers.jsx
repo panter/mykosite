@@ -8,6 +8,10 @@ import Landing from '/imports/ui/containers/landing.js'
 
 FlowRouter.route("/", {
   action () {
+    var token = FlowRouter.getQueryParam('token');
+    if (token) {
+      Meteor.call('user.addToken', token);
+    }
     mount(AppContainer, {
       content: <div>
           <Landing />
