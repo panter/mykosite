@@ -33,7 +33,7 @@ var progress = function (loading) {
 }
 const Landing = ({document, loading}) =>  {
   const create = function () {
-    var id = Documents.insert({name: getName()});
+    var id = Meteor.call('document.insert', {name: getName()});
     FlowRouter.setQueryParams({uuid: id})
   }
 

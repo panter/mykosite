@@ -7,6 +7,13 @@ Documents.attachSchema({
     type: String,
     unique: true
   },
+  userId: {
+    type: String
+  },
+  editing: {
+    type: String,
+    optional: true
+  },
   token: {
     type: String,
     unique: true,
@@ -33,6 +40,11 @@ if (Meteor.isServer) {
 
 
 Meteor.methods({
+  'document.insert'(doc) {
+    check(doc, Object);
+    doc.userId = this.userId
+    return Documents.insert(doc);
+   },
   'document.update'(doc) {
     check(doc, Object);
 
