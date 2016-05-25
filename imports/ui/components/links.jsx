@@ -16,13 +16,6 @@ const viewLink = function (document) {
     return <a href={path}>{window.location.host}{path}</a>;
 }
 
-const createPDF = (document) => {
-  var pdf = new jsPDF();
-  pdf.fromHTML($('.document').get(0), 15, 15, {
-    'width': 210
-  });
-  pdf.save('Test.pdf');
-};
 
 const Links = ({document}) => {
   if (!document || Documents.helpers.isEditing(document)) {
@@ -38,7 +31,6 @@ const Links = ({document}) => {
       </span>
     <Badge badgeContent={document.watchingCount} secondary={true} className="badge" > <EyeIcon /> </Badge>
     <Badge badgeContent={document.visitorsCount} secondary={true} className="badge" > <PeopleIcon /> </Badge>
-    <RaisedButton onClick={createPDF}>PDF</RaisedButton>
   </Paper>)
 }
 

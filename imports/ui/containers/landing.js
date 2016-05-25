@@ -42,20 +42,31 @@ const edit = (document) => {
   }
 }
 
+const createPDF = (document) => {
+  var pdf = new jsPDF();
+  pdf.fromHTML($('.document').get(0), 15, 15, {
+    'width': 210
+  });
+  pdf.save(document.name + '.pdf');
+};
+
+
 const Landing = ({document, loading}) =>  {
 
   if (Documents.helpers.isEditing(document)) {
     return <div></div>;
 
   } else {
+    $('.keyword input').attr('autocomplete', 'off');
     return (
       <div>
         <Card className="landing section">
           <CardText>
             <Formsy.Form onValidSubmit={edit.bind(this, document)}>
               <FormsyText name='keyword' className='keyword' value={getName(document)} floatingLabelText="Page"
-                          onChange={(e) => setNameDebounced(e.target.value)} autocomplete='off'/>
+                          onChange={(e) => setNameDebounced(e.target.value)} />
               <FlatButton type="submit" label={document ? 'Edit' : 'Create'} />
+              <FlatButton label='PDF' disabled={!document} onClick={createPDF.bind(this, document)}/>
             </Formsy.Form>
           </CardText>
         </Card>
