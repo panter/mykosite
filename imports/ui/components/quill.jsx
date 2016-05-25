@@ -85,7 +85,6 @@ const Quill = ({document, editable, editing}) => {
       <FloatingActionButton className="fullscreen" onClick={fullscreen}>
         { isFullscreen.get() ? <FullscreenExit/> : <Fullscreen/> }
       </FloatingActionButton>
-      { editable ? <FloatingActionButton className="edit" onClick={editDocument.bind(this, document)}><ContentEdit/></FloatingActionButton> : '' }
     </Card>
   }
 
@@ -108,5 +107,14 @@ const Quill = ({document, editable, editing}) => {
     </div>
   )
 }
+
+Quill.helpers = {
+  editDocument(doc) {
+    dirty.set(false);
+    doc.editing = Meteor.userId();
+    text = doc.text;
+    Meteor.call('document.update', doc);
+  }
+};
 
 export default Quill

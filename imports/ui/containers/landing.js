@@ -1,9 +1,10 @@
 import React from 'react';
 import {composeWithTracker} from 'react-komposer'
-import {LinearProgress, RaisedButton, Card, CardText, CardActions} from 'material-ui';
+import {LinearProgress, RaisedButton, FlatButton, Card, CardText, CardActions} from 'material-ui';
 import Formsy from 'formsy-react'
 import {FormsyText} from 'formsy-material-ui/lib';
 import { Documents } from '/imports/api/Documents.js'
+import Quill from '/imports/ui/components/quill.jsx'
 
 var loadingVar = new ReactiveVar(true);
 const getName = function () {
@@ -32,11 +33,16 @@ var progress = function (loading) {
   if (loading) return <LinearProgress /> 
 }
 
-const Landing = ({document, loading}) =>  {
-  const create = function () {
+const edit = (document) => {
+  if (document) {
+    Quill.helpers.editDocument(document);
+  } else {
     var id = Meteor.call('document.insert', {name: getName()});
     FlowRouter.setQueryParams({uuid: id})
   }
+}
+
+const Landing = ({document, loading}) =>  {
 
   if (Documents.helpers.isEditing(document)) {
     return <div></div>;
@@ -46,10 +52,10 @@ const Landing = ({document, loading}) =>  {
       <div>
         <Card className="landing section">
           <CardText>
-            <Formsy.Form onValidSubmit={create}>
-              <FormsyText name='keyword' className='keyword' value={getName()} floatingLabelText="Keyword"
+            <Formsy.Form onValidSubmit={edit.bind(this, document)}>
+              <FormsyText name='keyword' className='keyword' value={getName(document)} floatingLabelText="Page"
                           onChange={(e) => setNameDebounced(e.target.value)} autocomplete='off'/>
-              <RaisedButton type="submit" label='Create New Page...' disabled={document || loading}/>
+              <FlatButton type="submit" label={document ? 'Edit' : 'Create'} />
             </Formsy.Form>
           </CardText>
         </Card>
