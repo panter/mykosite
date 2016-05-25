@@ -31,25 +31,32 @@ var setNameDebounced =  function (newName) {
 var progress = function (loading) {
   if (loading) return <LinearProgress /> 
 }
+
 const Landing = ({document, loading}) =>  {
   const create = function () {
     var id = Meteor.call('document.insert', {name: getName()});
     FlowRouter.setQueryParams({uuid: id})
   }
 
-  $('.keyword input').attr('autocomplete', 'off')
+  if (Documents.helpers.isEditing(document)) {
+    return <div></div>;
 
-  return (<div><Card className="landing section">
-    <CardText>
-      <Formsy.Form onValidSubmit={create}>
-        <FormsyText name='keyword' className='keyword' value={getName()} floatingLabelText="Keyword" onChange={(e) => setNameDebounced(e.target.value)} autocomplete='off'/>
-        <RaisedButton type="submit" label='Create New Page...' disabled={document || loading}/>
-      </Formsy.Form>
-    </CardText>
-  </Card>
-     {progress(loading)}
-    </div>)
-}
+  } else {
+    return (
+      <div>
+        <Card className="landing section">
+          <CardText>
+            <Formsy.Form onValidSubmit={create}>
+              <FormsyText name='keyword' className='keyword' value={getName()} floatingLabelText="Keyword"
+                          onChange={(e) => setNameDebounced(e.target.value)} autocomplete='off'/>
+              <RaisedButton type="submit" label='Create New Page...' disabled={document || loading}/>
+            </Formsy.Form>
+          </CardText>
+        </Card>
+        {progress(loading)}
+      </div>);
+  }
+};
 
 var handle;
 
@@ -67,9 +74,10 @@ function composer (props, onData) {
     if (name == getName()) {
       loadingVar.set(false)
     }
-  } 
-  onData(null, {document, loading: loadingVar.get() })
+  }
 
-};
+  onData(null, {document, loading: loadingVar.get() });
+
+}
 
 export default composeWithTracker(composer)(Landing);

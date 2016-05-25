@@ -4,6 +4,7 @@ import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
 import EyeIcon from 'material-ui/svg-icons/image/remove-red-eye';
 import PeopleIcon from 'material-ui/svg-icons/social/people';
+import { Documents } from '/imports/api/Documents.js';
 
 const editLink = function (document) {
   var path = '?' + document.name + '&token=' + document.token;
@@ -24,7 +25,7 @@ const createPDF = (document) => {
 };
 
 const Links = ({document}) => {
-  if (!document) {
+  if (!document || Documents.helpers.isEditing(document)) {
     return <div></div>
   }
   return (<Paper className="links section">

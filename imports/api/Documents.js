@@ -41,6 +41,13 @@ Documents.helpers = {
     var user = Meteor.user();
     if (!user) return false;
     return document.userId == user._id || _.include(user.tokens, document.token);
+  },
+
+  isEditing(document) {
+    if (!document) return false;
+    var user = Meteor.user();
+    if (!user) return false;
+    return document.editing === user._id;
   }
 }
 
