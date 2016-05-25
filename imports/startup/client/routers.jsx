@@ -8,12 +8,26 @@ import Landing from '/imports/ui/containers/landing.js'
 
 FlowRouter.route("/", {
   action () {
+    var token = FlowRouter.getQueryParam('token');
+    if (token) {
+      Meteor.call('user.addToken', token);
+    }
+    document.title = "Mykosite";
     mount(AppContainer, {
       content: <div>
           <Landing />
           <Document />
           <Links />
       </div>
+    });
+  }
+});
+
+FlowRouter.route("/:docName", {
+  action (params) {
+    Session.set('documentName', params.docName);
+    mount(AppContainer, {
+      content: <div><Document /></div>
     });
   }
 });

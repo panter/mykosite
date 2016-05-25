@@ -1,33 +1,45 @@
 import React from 'react';
-import {Paper} from 'material-ui';
+import {FlatButton, TextField, Paper, RaisedButton} from 'material-ui';
 import { FacebookCount } from "react-social";
 // see https://github.com/olahol/react-social
 import { FacebookButton, TwitterButton, GooglePlusButton, PinterestButton, LinkedInButton, RedditButton, VKontakteButton, EmailButton, XingButton, TumblrButton} from "react-social"
 // see http://markhuge.github.io/svg-social-icons/
 import icons from 'svg-social-icons' 
+import Badge from 'material-ui/Badge';
+import EyeIcon from 'material-ui/svg-icons/image/remove-red-eye';
+import PeopleIcon from 'material-ui/svg-icons/social/people';
+import CopyIcon from 'material-ui/svg-icons/content/content-copy';
+import { Documents } from '/imports/api/Documents.js';
 
-const link = function (document, editable) {
-  var path = '?' + document.name
-  if (editable) {
-    path += '&uuid=' + document._id
-  }
-
+const editLink = function (document) {
+  var path = '?' + document.name + '&token=' + document.token;
+  return window.location.host + path;
   return <a href={path}>{window.location.host}{path}</a>;
 }
 
+const viewLink = function (document) {
+    var path = '/' + document.name;
+    return window.location.host + path;
+    return <a href={path}>{window.location.host}{path}</a>;
+}
+
+
+//const Links = ({document}) => {
 const Links = ({document}) => {
-  if (!document) {
+  return {
+    componentDidMount() {
+      new Clipboard(".clipboard");
+      },
+
+  render() {
+  if (!document || Documents.helpers.isEditing(document)) {
     return <div></div>
   }
   return (<Paper className="links section">
-      <span>
-        View link: &nbsp; {link(document, false)}
+      <span className="copy-links">
+          <TextField id="view-link" floatingLabelText="Share link" value={viewLink(document)} style={{width: '70%'}}/>
+          <FlatButton className="clipboard" data-clipboard-target="#view-link" icon={<CopyIcon/>}/>
       </span>
-      &nbsp; &nbsp; &nbsp;
-      <span>
-        Edit link: &nbsp; {link(document, true)}
-      </span>
-      <br/>
       <span className="share-buttons">
           <FacebookButton>
               <div dangerouslySetInnerHTML={{__html: icons('facebook')}}/>
@@ -57,7 +69,15 @@ const Links = ({document}) => {
               <div dangerouslySetInnerHTML={{__html: icons('tumblr')}}/>
           </TumblrButton>
       </span>
+    <Badge badgeContent={document.watchingCount} secondary={true} className="badge" > <EyeIcon /> </Badge>
+    <Badge badgeContent={document.visitorsCount} secondary={true} className="badge" > <PeopleIcon /> </Badge>
+      <span className="copy-links">
+        <TextField id="edit-link" floatingLabelText="Edit link" value={editLink(document)} style={{width: '70%'}} />
+        <FlatButton className="clipboard" data-clipboard-target="#edit-link" icon={<CopyIcon/>}/>
+      </span>
   </Paper>)
+    }
+    }
 }
 
 export default Links

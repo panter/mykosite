@@ -5,6 +5,7 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "clipboard": "^1.5.10",
     "formsy-material-ui": "^0.4.3",
     "formsy-react": "^0.18.0",
     "internal": "^1.0.8",

@@ -1,0 +1,127 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "11"
+  creationTimestamp: null
+  generation: 1
+  labels:
+    run: mykosite
+  name: mykosite
+  selfLink: /apis/extensions/v1beta1/namespaces/deployments/mykosite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: mykosite
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: mykosite
+    spec:
+      containers:
+      - env:
+        - name: MONGO_URL
+          value: mongodb://$(MONGO_DB_SERVICE_HOST)
+        - name: ROOT_URL
+          value: http://mykosite.lan/
+        image: registry.lan:5000/mykosite:latest
+        imagePullPolicy: Always
+        name: mykosite
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}
+----
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: mykosite
+  name: mykosite
+  selfLink: /api/v1/namespaces/services/mykosite
+spec:
+  externalIPs:
+  - 172.30.0.3
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    run: mykosite
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+----
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: null
+  generation: 1
+  labels:
+    run: mongo-db
+  name: mongo-db
+  selfLink: /apis/extensions/v1beta1/namespaces/deployments/mongo-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: mongo-db
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: mongo-db
+    spec:
+      containers:
+      - image: mongo
+        imagePullPolicy: Always
+        name: mongo-db
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}
+----
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: mongo-db
+  name: mongo-db
+  selfLink: /api/v1/namespaces/services/mongo-db
+spec:
+  ports:
+  - port: 27017
+    protocol: TCP
+    targetPort: 27017
+  selector:
+    run: mongo-db
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
