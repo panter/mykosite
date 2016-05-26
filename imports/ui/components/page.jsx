@@ -13,6 +13,7 @@ import {Documents} from '/imports/api/Documents.js';
 import Badge from 'material-ui/Badge';
 import EyeIcon from 'material-ui/svg-icons/image/remove-red-eye';
 import PeopleIcon from 'material-ui/svg-icons/social/people';
+import Slider from 'material-ui/Slider';
 
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -182,12 +183,17 @@ const createButtons = (document, name) => {
   return <div className="page-toolbar">{result}</div>
 };
 
+var zoom = new ReactiveVar(0.25)
+const zoomChange = function (e, value) {
+  zoom.set(value)
+}
 const createContent = (document) => {
   if (Documents.helpers.isEditing(document)) {
     return <ReactQuill theme="snow" value={text} onChange={change}/>
   } else if (document) {
     return (<div className="page-content">
-      <div dangerouslySetInnerHTML={{__html: document.text}}/>
+      <Slider defaultValue={0.25} className="zoom-slider" onChange={zoomChange.bind(this)} />
+      <div dangerouslySetInnerHTML={{__html: document.text}} style={{ zoom: (zoom.get() * 300).toString() + '%'}}/>
       <Badge badgeContent={document.watchingCount} primary={true} className="watching-badge badge" > <EyeIcon /> </Badge>
       <Badge badgeContent={document.visitorsCount} secondary={true} className="visitors-badge badge" > <PeopleIcon /> </Badge>
       </div>)

@@ -110,10 +110,23 @@ body
 .watching-badge
   right 70px
 
-.fullscreen-on
-  margin 16px
-  height 100%
+.zoom-slider
   width 100%
+  top: -5px
+  margin 0 !important
+  position: absolute
+  padding 0 !important
+  div
+    margin 0 !important
+    padding 0 !important
+ 
+
+.page-content.fullscreen-on
+  padding 16px
+  height 95%
+  width 95%
+  
+  min-height 0
 
   .badge
     svg
@@ -158,15 +171,15 @@ body
         svg
           vertical-align: middle
 
-  .page-content
-    position relative
-    min-height: 441px
-    padding: 16px
-    overflow: auto
-    background-color: white
+.page-content
+  position relative
+  min-height: 441px
+  padding: 16px
+  overflow: auto
+  background-color: white
 
-    img
-      max-width: 100%
+  img
+    max-width: 100%
 
 .quill
   min-height: 473px
