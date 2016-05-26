@@ -13,7 +13,11 @@ body
   center(1024px)
 
 .app-bar
-  margin-bottom 16px
+  z-index: 0
+  height: 8em
+
+  .page-name
+    color: white
 
 .quill-toolbar
   border-bottom 1px solid lightgrey
@@ -51,3 +55,21 @@ body
   span
     line-height: 2em
     text-align: center
+
+.page
+  width: 90%
+  margin: 16px auto
+  z-index: 1200
+  position: relative
+  top: -5em
+
+  .pagebar
+    display: flex
+
+    h1
+      margin: 0
+      padding: 16px
+      flex-grow: 1
+
+    button
+      flex-shrink: 1

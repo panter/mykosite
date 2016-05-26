@@ -13,21 +13,13 @@ FlowRouter.route("/", {
       Meteor.call('user.addToken', token);
     }
     document.title = "Mykosite";
-    mount(AppContainer, {
-      content: <div>
-          <Landing />
-          <Document />
-          <Links />
-      </div>
-    });
+    mount(AppContainer);
   }
 });
 
 FlowRouter.route("/:docName", {
   action (params) {
     Session.set('documentName', params.docName);
-    mount(AppContainer, {
-      content: <div><Document /></div>
-    });
+    mount(AppContainer);
   }
 });
