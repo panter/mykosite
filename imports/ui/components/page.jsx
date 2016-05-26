@@ -56,23 +56,33 @@ const editLink = function (document) {
 }
 
 const createMenu = (document) => {
+  var items = [];
+
+  items.push(
+      <MenuItem primaryText='Save as PDF'
+                leftIcon={<ImagePictureAsPdf />}
+                onClick={exportAsPdf.bind(this, document)}/>)
+
+  if (Documents.helpers.canEdit(document)) {
+    items.push(<Divider />)
+    // Copy Editable Link
+    items.push(<MenuItem primaryText='Copy Editable Link...'
+                className="clipboard" data-clipboard-target="#edit-link"
+                leftIcon={<CopyEditIcon />}/>)
+    items.push(<input type="text" id="edit-link" value={editLink(document)} style={{position: 'absolute', left: '-400px'}} />)
+
+    // Delete
+    items.push(<MenuItem primaryText='Delete...'
+                leftIcon={<DeleteIcon />}
+                className="delete-menuitem"/>)
+  }
+  
   return (
     <IconMenu
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         iconButtonElement={<IconButton><MoreVertIcon /></IconButton>} >
-      <MenuItem primaryText='Save as PDF'
-                leftIcon={<ImagePictureAsPdf />}
-                onClick={exportAsPdf.bind(this, document)}/>
-
-      <MenuItem primaryText='Copy Editable Link...'
-                className="clipboard" data-clipboard-target="#edit-link"
-                leftIcon={<CopyEditIcon />}/>
-      <input type="text" id="edit-link" value={editLink(document)} style={{position: 'absolute', left: '-400px'}} />
-
-      <MenuItem primaryText='Delete...'
-                leftIcon={<DeleteIcon />}
-                className="delete-menuitem"/>
+        {items}
     </IconMenu>
     )
       //<MenuItem onClick={exportAsPdf.bind(this, document)} disabled={Documents.helpers.isEditing(document)} leftIcon={<ImagePictureAsPdf />}/>
