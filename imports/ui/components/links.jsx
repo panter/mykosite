@@ -72,23 +72,25 @@ var shareButtons = (document) => (
 
 
 //const Links = ({document}) => {
-const Links = ({document}) => {
+const Links = () => {
   return {
     componentDidMount() {
       new Clipboard(".clipboard");
     },
 
-  render() {
-  if (!document || Documents.helpers.isEditing(document)) {
-    return <div></div>
-  }
-  return (
-    <div className="footer">
-      {shareLink(document)}
-      {shareButtons(document)}
-    </div>)
+  render(args) {
+    var document = this.props.document;
+    var name = this.props.name;
+    if (!document || Documents.helpers.isEditing(document)) {
+      return <div></div>
     }
-    }
+    return (
+      <div className="footer">
+        {shareLink(document)}
+        {shareButtons(document)}
+      </div>)
+   }
+   }
 }
 
 export default Links

@@ -3,10 +3,11 @@ import Links from '/imports/ui/components/links.jsx'
 import { Documents } from '/imports/api/Documents.js'
 
 function composer (props, onData) {
-  const handle = Subs.subscribe('documentsByName', Session.get('documentName'));
+  const name = Session.get('documentName');
+  const handle = Subs.subscribe('documentsByName', name);
   if (handle.ready()) {
-    const document = Documents.findOne({ name: Session.get('documentName')});
-    onData(null, {document});
+    const document = Documents.findOne({ name: name })
+    onData(null, {document, name});
   };
 };
 
