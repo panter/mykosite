@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {TextField} from 'material-ui';
 import Page from '/imports/ui/containers/page.js';
 import {AppBar, FlatButton} from 'material-ui';
+import Links from '/imports/ui/containers/links.js'
 
 const changeName = _.debounce((name) => {
   FlowRouter.setQueryParams({ page: name ? name : null });
@@ -29,6 +30,7 @@ export default ({header, content, footer}) => {
           />
         </AppBar>
         <Page />
+        <Links />
         {content}
       </div>
     </MuiThemeProvider>

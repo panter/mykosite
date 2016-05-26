@@ -16,16 +16,14 @@ body
   z-index: 0
   height: 8em
 
+  h1
+    display inline-block
   .page-name
     color: white
 
 .quill-toolbar
   border-bottom 1px solid lightgrey
 
-.links
-  margin-top: 16px
-  padding: 16px
-  
 .bottom
   border-top 1px solid lightgrey
   padding 16px 0px 16px 0px !important
@@ -33,6 +31,29 @@ body
 
 .section
   margin-bottom: 16px
+
+.social-svg
+  height: 64px
+  width: 64px
+  fill white
+
+.share-buttons
+  text-align: center
+  button
+    //float: left
+    width 64px
+    border: none
+    background-color: none
+    padding 0
+    margin 3px
+
+.share-links
+  padding 16px
+  text-align center
+
+  #view-link, #edit-link
+    width 400px !important
+
 
 .ql-editor, .ql-container, .document
   min-height 400px
