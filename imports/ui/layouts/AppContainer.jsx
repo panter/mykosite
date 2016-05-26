@@ -8,14 +8,13 @@ import Links from '/imports/ui/containers/links.js'
 
 const changeName = _.debounce((name) => {
   FlowRouter.withReplaceState( () => {
-    FlowRouter.go('/' + name);
+    FlowRouter.go('/' + encodeURIComponent(name));
     Session.set({documentName: name});
   })
 }, 200);
 
 const getName = () => {
-  return FlowRouter.current().path.substr(1)
-  // return FlowRouter.getQueryParam('page');
+  return FlowRouter.current().params.docName;
 }
 
 export default ({header, content, footer}) => {

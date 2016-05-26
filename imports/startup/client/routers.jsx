@@ -9,7 +9,7 @@ import Landing from '/imports/ui/containers/landing.js'
 var mounted = false;
 
 const mountApp = () => {
-  var name = FlowRouter.current().path.substr(1)
+  var name = FlowRouter.current().params.docName;
   Session.set({documentName: name});
   var token = FlowRouter.getQueryParam('token');
   if (token) {
