@@ -21,17 +21,16 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 var text;
 var dirty = new ReactiveVar(false);
-var isFullscreen = new ReactiveVar(false);
 
 const create = (name) => {
-  var id = Meteor.call('document.insert', {name: name});
-  FlowRouter.setQueryParams({uuid: id});
+  Meteor.call('document.insert', {name: name});
+  edit(Documents.findOne({name: name}));
 };
 
 const edit = (document) => {
+  text = document.text;
   document.editing = Meteor.userId();
   Meteor.call('document.update', document);
-  text = document.text;
   dirty.set(false);
 };
 
