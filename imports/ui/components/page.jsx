@@ -198,7 +198,26 @@ const createContent = (document) => {
       <Badge badgeContent={document.visitorsCount} secondary={true} className="visitors-badge badge" > <PeopleIcon /> </Badge>
       </div>)
   } else {
-    return <div className="page-content"/>
+    if (!FlowRouter.current().params.docName) {
+      return <div className="page-content">
+          <h1>Welcome to mykoSite!</h1>
+          <p>On this site you can quickly publish your own content and in real-time!</p>
+          <p>Please start typing a name for your new page in the 'Page' search field on top of this page. If the page exist, it will be immediately displayed. If the page does not exist, you can create your own page...</p>
+          <p>...just follow the short instructions that will appear.</p>
+      </div>
+    }
+      
+    return <div className="page-content">
+          <h1>This page does not exist (yet)</h1>
+          <p>
+              <ul>
+                  <li>The bad: The page name you are searching for does not exist. </li>
+                  <li>The good: You can create your own page here by just clicking the + button on top right of this page</li>
+              </ul>
+          </p>
+          <p>Remember: All content you are providing here will be public. Do not publish sensitive data like passwords or personal information.</p>
+          <p>You can edit this page anytime with your current browser (do not remove cached data). To keep the page under your control, save the "Edit link" in the top-right menu.</p>
+    </div>
   }
 };
 

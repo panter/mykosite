@@ -28,7 +28,7 @@ Documents.attachSchema({
   },
   text: {
     type: String,
-    defaultValue: '<div> <span style="font-size: 18px;">Welcome to your μPage</span> </div> <div> <br> </div> <div> <span style="font-size: 14px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut nisi massa. Cras malesuada commodo dolor in ultricies. Morbi tempor enim sed dolor vulputate iaculis. Curabitur volutpat, ipsum eget suscipit laoreet, neque odio fringilla erat, in mattis est felis vel metus. Morbi lacinia tellus ac varius maximus. Proin id dolor elit. Nulla</span> </div>'
+    defaultValue: '<div style="zoom: 111%;"><div><span style="font-size: 32px;">Congratulations!</span></div><div><br></div><div><span style="font-size: 18px;">You just created your own web page in the internet. The whole document is already published with the URL above. You can share it with your friends and will be updated in real time, as soon as you hit the save button.</span></div><div><br></div><div><span style="font-size: 18px;">The text you are currently reading is the default text of every page created here. You can safely remove the content and replace it with your own.</span></div><div><br></div><div><span style="font-size: 18px;">This page offers you a whole new experience on how you publish your content</span></div><ul><li><span style="font-size: 18px;">Easy</span></li><li><span style="font-size: 18px;">Fast</span></li><li><span style="font-size: 18px;">And Free!</span></li></ul><div><br></div><div><span style="font-size: 32px;">Have fun!</span></div></div>'
   },
   saved: {
     type: Boolean,
