@@ -135,7 +135,7 @@ const createButtons = (document, name) => {
   if (!document) {
     return <div className="page-toolbar">
       <div className="button-group">
-        <IconButton onClick={create.bind(this, name)} disabled={name == null}>
+        <IconButton onClick={create.bind(this, name)} disabled={name == null} tooltipPosition="top-left" tooltip="Create a new page">
           <AddCircle />
         </IconButton>
       </div>
@@ -148,7 +148,7 @@ const createButtons = (document, name) => {
   if (!Documents.helpers.isEditing(document)) {
     result.push(
       <div className="button-group">
-       <IconButton onClick={toggleFullscreen}><Fullscreen/></IconButton>
+       <IconButton onClick={toggleFullscreen} tooltipPosition="top-left" tooltip="Enable fullscreen mode"><Fullscreen/></IconButton>
       </div>)
   }
 
@@ -157,7 +157,7 @@ const createButtons = (document, name) => {
   if (Documents.helpers.canEdit(document) && !Documents.helpers.isEditing(document)) {
     result.push(
       <div className="button-group">
-        <IconButton onClick={edit.bind(this, document)}> <EditorModeEdit /> </IconButton>
+        <IconButton onClick={edit.bind(this, document)} tooltipPosition="top-left" tooltip="Edit your document"> <EditorModeEdit /> </IconButton>
       </div>)
     }
     
@@ -165,7 +165,7 @@ const createButtons = (document, name) => {
   if (Documents.helpers.isEditing(document)) {
     result.push(
       <div className="button-group">
-        <IconButton onClick={cancel.bind(this, document)}> <NavigationCancel /> </IconButton>
+        <IconButton onClick={cancel.bind(this, document)} tooltipPosition="top-left" tooltip="Discard your changes"> <NavigationCancel /> </IconButton>
       </div>)
   }
 
@@ -173,7 +173,7 @@ const createButtons = (document, name) => {
   if (dirty.get()) {
     result.push(
       <div className="button-group">
-        <IconButton onClick={save.bind(this, document)}> <ContentSave /> </IconButton>
+        <IconButton onClick={save.bind(this, document)} tooltipPosition="top-left" tooltip="Save your changes. Your changes will be visible immediately to the visitors of your page."> <ContentSave /> </IconButton>
       </div>)
   }
 
