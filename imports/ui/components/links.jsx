@@ -5,7 +5,6 @@ import { FacebookCount } from "react-social";
 import { FacebookButton, TwitterButton, GooglePlusButton, PinterestButton, LinkedInButton, RedditButton, VKontakteButton, EmailButton, XingButton, TumblrButton} from "react-social"
 // see http://markhuge.github.io/svg-social-icons/
 import icons from 'svg-social-icons' 
-import Badge from 'material-ui/Badge';
 import EyeIcon from 'material-ui/svg-icons/image/remove-red-eye';
 import PeopleIcon from 'material-ui/svg-icons/social/people';
 import CopyIcon from 'material-ui/svg-icons/content/content-copy';

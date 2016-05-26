@@ -101,9 +101,33 @@ body
     right 16px
 
 .badge
+  float right
   span
     line-height: 2em
     text-align: center
+
+  position absolute  !important
+  bottom 0px
+  right 16px
+
+.watching-badge
+  right 70px
+
+.fullscreen-on
+  margin 16px
+  height 100%
+  width 100%
+
+  .badge
+    svg
+      display none !important
+
+  .visitors-badge
+    right 20px
+
+  .watching-badge
+    right 50px
+    
 
 .delete-menuitem
   color rgb(255, 50, 50) !important
@@ -138,6 +162,7 @@ body
           vertical-align: middle
 
   .page-content
+    position relative
     min-height: 441px
     padding: 16px
     overflow: auto

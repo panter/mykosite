@@ -10,6 +10,9 @@ import CopyEditIcon from 'material-ui/svg-icons/editor/border-color';
 import ImagePictureAsPdf from 'material-ui/svg-icons/image/picture-as-pdf';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import {Documents} from '/imports/api/Documents.js';
+import Badge from 'material-ui/Badge';
+import EyeIcon from 'material-ui/svg-icons/image/remove-red-eye';
+import PeopleIcon from 'material-ui/svg-icons/social/people';
 
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -88,11 +91,14 @@ const createMenu = (document) => {
       //<MenuItem onClick={exportAsPdf.bind(this, document)} disabled={Documents.helpers.isEditing(document)} leftIcon={<ImagePictureAsPdf />}/>
 }
 
+$(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', function () {
+  console.log($('.page-content'))
+  $('.page-content').toggleClass('fullscreen-on')
+});
 const toggleFullscreen = function () {
   var el = $('.page-content')[0];
   if (!document.fullscreenElement &&    // alternative standard method
     !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {  // current working methods
-    isFullscreen.set(true)
     if (el.requestFullscreen) {
       el.requestFullscreen();
     } else if (el.msRequestFullscreen) {
@@ -103,7 +109,6 @@ const toggleFullscreen = function () {
       el.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
     }
   } else {
-    isFullscreen.set(false)
     if (document.exitFullscreen) {
       document.exitFullscreen();
     } else if (document.msExitFullscreen) {
@@ -182,7 +187,11 @@ const createContent = (document) => {
   if (Documents.helpers.isEditing(document)) {
     return <ReactQuill theme="snow" value={text} onChange={change}/>
   } else if (document) {
-    return <div className="page-content" dangerouslySetInnerHTML={{__html: document.text}}/>
+    return (<div className="page-content">
+      <div dangerouslySetInnerHTML={{__html: document.text}}/>
+      <Badge badgeContent={document.watchingCount} primary={true} className="watching-badge badge" > <EyeIcon /> </Badge>
+      <Badge badgeContent={document.visitorsCount} secondary={true} className="visitors-badge badge" > <PeopleIcon /> </Badge>
+      </div>)
   } else {
     return <div className="page-content"/>
   }
