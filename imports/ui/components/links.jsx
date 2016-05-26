@@ -11,11 +11,6 @@ import PeopleIcon from 'material-ui/svg-icons/social/people';
 import CopyIcon from 'material-ui/svg-icons/content/content-copy';
 import { Documents } from '/imports/api/Documents.js';
 
-const editLink = function (document) {
-  var path = '?' + document.name + '&token=' + document.token;
-  return window.location.host + path;
-}
-
 const viewLink = function (document) {
     var path = '/' + document.name;
     return window.location.host + path;
@@ -26,17 +21,6 @@ var shareLink = (document) => (
     <IconButton className="clipboard" data-clipboard-target="#view-link"><CopyIcon/></IconButton>
   </Paper>
 )
-var editLink2 = (document) => (
-  <Paper className="share-links section">
-        <div>
-            <h2>!! EVERYBODY WHO HAS THIS LINK CAN EDIT AND DELETE THE DOCUMENT !!</h2>
-            <p>
-           <TextField id="edit-link" floatingLabelText="Edit link" value={editLink(document)} style={{width: '400px'}} />
-           <FlatButton className="clipboard" data-clipboard-target="#edit-link" icon={<CopyIcon/>}/>
-            </p>
-        </div>
-  </Paper>
-)  
 
 var shareButtons = (document) => (
   <span className="share-buttons section">

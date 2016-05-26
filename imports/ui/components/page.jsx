@@ -6,7 +6,9 @@ import NavigationCancel from 'material-ui/svg-icons/navigation/cancel';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import AddCircle from 'material-ui/svg-icons/content/add-circle';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import CopyEditIcon from 'material-ui/svg-icons/editor/border-color';
 import ImagePictureAsPdf from 'material-ui/svg-icons/image/picture-as-pdf';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import {Documents} from '/imports/api/Documents.js';
 
 import IconMenu from 'material-ui/IconMenu';
@@ -48,6 +50,34 @@ const save = (document) => {
   dirty.set(false);
 };
 
+const editLink = function (document) {
+  var path = '?' + document.name + '&token=' + document.token;
+  return window.location.host + path;
+}
+
+const createMenu = (document) => {
+  return (
+    <IconMenu
+        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+        targetOrigin={{horizontal: 'right', vertical: 'top'}}
+        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>} >
+      <MenuItem primaryText='Save as PDF'
+                leftIcon={<ImagePictureAsPdf />}
+                onClick={exportAsPdf.bind(this, document)}/>
+
+      <MenuItem primaryText='Copy Editable Link...'
+                className="clipboard" data-clipboard-target="#edit-link"
+                leftIcon={<CopyEditIcon />}/>
+      <input type="text" id="edit-link" value={editLink(document)} style={{position: 'absolute', left: '-400px'}} />
+
+      <MenuItem primaryText='Delete...'
+                leftIcon={<DeleteIcon />}
+                className="delete-menuitem"/>
+    </IconMenu>
+    )
+      //<MenuItem onClick={exportAsPdf.bind(this, document)} disabled={Documents.helpers.isEditing(document)} leftIcon={<ImagePictureAsPdf />}/>
+}
+
 const toggleFullscreen = function () {
   var el = $('.page-content')[0];
   if (!document.fullscreenElement &&    // alternative standard method
@@ -87,32 +117,7 @@ const exportAsPdf = (document) => {
 };
 
 const createButtons = (document, name) => {
-  if (document) {
-    return <div className="page-toolbar">
-      <div className="button-group">
-        <IconButton onClick={toggleFullscreen} disabled={Documents.helpers.isEditing(document)}>
-          <Fullscreen/>
-        </IconButton>
-        <IconButton onClick={exportAsPdf.bind(this, document)} disabled={Documents.helpers.isEditing(document)}>
-          <ImagePictureAsPdf />
-        </IconButton>
-      </div>
-      <div className="button-group">
-        <IconButton onClick={edit.bind(this, document)}
-                    disabled={!Documents.helpers.canEdit(document) || Documents.helpers.isEditing(document)}>
-          <EditorModeEdit />
-        </IconButton>
-        <IconButton onClick={cancel.bind(this, document)}
-                    disabled={!Documents.helpers.isEditing(document)}>
-          <NavigationCancel />
-        </IconButton>
-        <IconButton onClick={save.bind(this, document)} disabled={!dirty.get()}>
-          <ContentSave />
-        </IconButton>
-      </div>
-    </div>
-
-  } else {
+  if (!document) {
     return <div className="page-toolbar">
       <div className="button-group">
         <IconButton onClick={create.bind(this, name)} disabled={name == null}>
@@ -121,6 +126,46 @@ const createButtons = (document, name) => {
       </div>
     </div>
   }
+
+  var result = [];
+  
+  // Fullscreen
+  if (!Documents.helpers.isEditing(document)) {
+    result.push(
+      <div className="button-group">
+       <IconButton onClick={toggleFullscreen}><Fullscreen/></IconButton>
+      </div>)
+  }
+
+
+  // Edit
+  if (Documents.helpers.canEdit(document) && !Documents.helpers.isEditing(document)) {
+    result.push(
+      <div className="button-group">
+        <IconButton onClick={edit.bind(this, document)}> <EditorModeEdit /> </IconButton>
+      </div>)
+    }
+    
+  // Abbrechen
+  if (Documents.helpers.isEditing(document)) {
+    result.push(
+      <div className="button-group">
+        <IconButton onClick={cancel.bind(this, document)}> <NavigationCancel /> </IconButton>
+      </div>)
+  }
+
+  // Save
+  if (dirty.get()) {
+    result.push(
+      <div className="button-group">
+        <IconButton onClick={save.bind(this, document)}> <ContentSave /> </IconButton>
+      </div>)
+  }
+
+  if (!dirty.get()) {
+    result.push(<div className="button-group">{ createMenu(document) }</div>)
+  }
+  return <div className="page-toolbar">{result}</div>
 };
 
 const createContent = (document) => {
@@ -138,11 +183,9 @@ const Page = ({document, name}) => {
     <Paper className="page" zDepth="2">
       <div className="pagebar">
         <h1>{name}</h1>
-        {/*<EditorToolbar />*/}
         { createButtons(document, name) }
       </div>
       <Divider />
-      {/*<Editor />*/}
       { createContent(document) }
     </Paper>
   )
