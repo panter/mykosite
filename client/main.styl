@@ -89,11 +89,28 @@ body
 
   .pagebar
     display: flex
+    align-items center
 
     h1
       margin: 0
       padding: 16px
       flex-grow: 1
 
-    button
+    .page-toolbar
       flex-shrink: 1
+
+      .button-group
+        display: inline-block
+        margin-right: 16px
+
+        svg
+          vertical-align: middle
+
+  .page-content
+    min-height: 441px
+    padding: 16px
+    overflow: auto
+    background-color: white
+
+    img
+      max-width: 100%

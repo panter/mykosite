@@ -1,10 +1,17 @@
 import React from 'react';
-import {Paper, TextField, Divider, FlatButton} from 'material-ui';
+import {Paper, TextField, Divider, IconButton} from 'material-ui';
 import ReactQuill from 'react-quill';
+import Fullscreen from 'material-ui/svg-icons/navigation/fullscreen';
+import NavigationCancel from 'material-ui/svg-icons/navigation/cancel';
+import ContentSave from 'material-ui/svg-icons/content/save';
+import AddCircle from 'material-ui/svg-icons/content/add-circle';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import ImagePictureAsPdf from 'material-ui/svg-icons/image/picture-as-pdf';
 import {Documents} from '/imports/api/Documents.js';
 
 var text;
 var dirty = new ReactiveVar(false);
+var isFullscreen = new ReactiveVar(false);
 
 const create = (name) => {
   var id = Meteor.call('document.insert', {name: name});
@@ -36,24 +43,77 @@ const save = (document) => {
   dirty.set(false);
 };
 
+const toggleFullscreen = function () {
+  var el = $('.page-content')[0];
+  if (!document.fullscreenElement &&    // alternative standard method
+    !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {  // current working methods
+    isFullscreen.set(true)
+    if (el.requestFullscreen) {
+      el.requestFullscreen();
+    } else if (el.msRequestFullscreen) {
+      el.msRequestFullscreen();
+    } else if (el.mozRequestFullScreen) {
+      el.mozRequestFullScreen();
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    }
+  } else {
+    isFullscreen.set(false)
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+};
+
+const exportAsPdf = (document) => {
+  var pdf = new jsPDF();
+  pdf.setFontSize(24);
+  pdf.text(15, 15, document.name);
+  pdf.fromHTML($('.page-content').get(0), 15, 20, {
+    'width': 180
+  });
+  pdf.save(document.name + '.pdf');
+};
+
 const createButtons = (document, name) => {
   if (document) {
-    return <div>
-      <FlatButton label="Edit"
-                  onClick={edit.bind(this, document)}
-                  disabled={!Documents.helpers.canEdit(document) || Documents.helpers.isEditing(document)}
-                  style={{margin: '14px 0px'}}/>
-      <FlatButton label="Cancel" onClick={cancel.bind(this, document)}
-                  disabled={!Documents.helpers.isEditing(document)}
-                  style={{margin: '14px 0px'}}/>
-      <FlatButton label="Save" onClick={save.bind(this, document)}
-                  disabled={!dirty.get()} style={{margin: '14px 0px'}}/>
+    return <div className="page-toolbar">
+      <div className="button-group">
+        <IconButton onClick={toggleFullscreen} disabled={Documents.helpers.isEditing(document)}>
+          <Fullscreen/>
+        </IconButton>
+        <IconButton onClick={exportAsPdf.bind(this, document)} disabled={Documents.helpers.isEditing(document)}>
+          <ImagePictureAsPdf />
+        </IconButton>
+      </div>
+      <div className="button-group">
+        <IconButton onClick={edit.bind(this, document)}
+                    disabled={!Documents.helpers.canEdit(document) || Documents.helpers.isEditing(document)}>
+          <EditorModeEdit />
+        </IconButton>
+        <IconButton onClick={cancel.bind(this, document)}
+                    disabled={!Documents.helpers.isEditing(document)}>
+          <NavigationCancel />
+        </IconButton>
+        <IconButton onClick={save.bind(this, document)} disabled={!dirty.get()}>
+          <ContentSave />
+        </IconButton>
+      </div>
     </div>
 
   } else {
-    return <div>
-      <FlatButton label="Create" onClick={create.bind(this, name)}
-                  disabled={name == null} style={{margin: '14px 0px'}}/>
+    return <div className="page-toolbar">
+      <div className="button-group">
+        <IconButton onClick={create.bind(this, name)} disabled={name == null}>
+          <AddCircle />
+        </IconButton>
+      </div>
     </div>
   }
 };
@@ -62,9 +122,9 @@ const createContent = (document) => {
   if (Documents.helpers.isEditing(document)) {
     return <ReactQuill theme="snow" value={text} onChange={change}/>
   } else if (document) {
-    return <div dangerouslySetInnerHTML={{__html: document.text}} style={{height: '441px', padding: '16px'}}/>
+    return <div className="page-content" dangerouslySetInnerHTML={{__html: document.text}}/>
   } else {
-    return <div style={{height: '441px', padding: '16px'}}/>
+    return <div className="page-content"/>
   }
 };
 
