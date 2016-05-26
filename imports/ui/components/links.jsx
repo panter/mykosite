@@ -1,5 +1,5 @@
 import React from 'react';
-import {Tabs, Tab, FlatButton, TextField, Paper, RaisedButton} from 'material-ui';
+import {Tabs, Tab, IconButton, FlatButton, TextField, Paper, RaisedButton} from 'material-ui';
 import { FacebookCount } from "react-social";
 // see https://github.com/olahol/react-social
 import { FacebookButton, TwitterButton, GooglePlusButton, PinterestButton, LinkedInButton, RedditButton, VKontakteButton, EmailButton, XingButton, TumblrButton} from "react-social"
@@ -14,25 +14,20 @@ import { Documents } from '/imports/api/Documents.js';
 const editLink = function (document) {
   var path = '?' + document.name + '&token=' + document.token;
   return window.location.host + path;
-  return <a href={path}>{window.location.host}{path}</a>;
 }
 
 const viewLink = function (document) {
     var path = '/' + document.name;
     return window.location.host + path;
-    return <a href={path}>{window.location.host}{path}</a>;
 }
-
-var shareLinks = (document) => (
+var shareLink = (document) => (
+  <Paper className='share-link section'>
+    <TextField id="view-link" floatingLabelText="Share link" value={viewLink(document)} style={{width: '400px'}}/>
+    <IconButton className="clipboard" data-clipboard-target="#view-link"><CopyIcon/></IconButton>
+  </Paper>
+)
+var editLink2 = (document) => (
   <Paper className="share-links section">
-    <Tabs>
-      <Tab label="Share view link" >
-        <div>
-          <TextField id="view-link" floatingLabelText="Share link" value={viewLink(document)} style={{width: '400px'}}/>
-          <FlatButton className="clipboard" data-clipboard-target="#view-link" icon={<CopyIcon/>}/>
-        </div>
-    </Tab>
-    <Tab label="Share edit link" >
         <div>
             <h2>!! EVERYBODY WHO HAS THIS LINK CAN EDIT AND DELETE THE DOCUMENT !!</h2>
             <p>
@@ -40,13 +35,11 @@ var shareLinks = (document) => (
            <FlatButton className="clipboard" data-clipboard-target="#edit-link" icon={<CopyIcon/>}/>
             </p>
         </div>
-      </Tab>
-    </Tabs>
   </Paper>
 )  
 
 var shareButtons = (document) => (
-  <div className="share-buttons section">
+  <span className="share-buttons section">
           <FacebookButton>
               <div dangerouslySetInnerHTML={{__html: icons('facebook')}}/>
           </FacebookButton>
@@ -74,7 +67,7 @@ var shareButtons = (document) => (
           <TumblrButton>
               <div dangerouslySetInnerHTML={{__html: icons('tumblr')}}/>
           </TumblrButton>
-  </div>
+  </span>
 )
 
 
@@ -90,9 +83,9 @@ const Links = ({document}) => {
     return <div></div>
   }
   return (
-    <div>
+    <div className="footer">
+      {shareLink(document)}
       {shareButtons(document)}
-      {shareLinks(document)}
     </div>)
     }
     }

@@ -9,6 +9,11 @@ import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import ImagePictureAsPdf from 'material-ui/svg-icons/image/picture-as-pdf';
 import {Documents} from '/imports/api/Documents.js';
 
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+
 var text;
 var dirty = new ReactiveVar(false);
 var isFullscreen = new ReactiveVar(false);

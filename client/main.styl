@@ -50,12 +50,35 @@ body
     padding 0
     margin 3px
 
-.share-links
+
+.footer
+  stack()
+  .share-link
+    col(1/2)
+
+  .share-buttons
+    col(1/2)
+
+.share-link
+  text-align: center
+  vertical-align center
+
+  display flex
+  padding-left 16px
+
+  div
+    flex-grow 1
+  button
+    flex-shrink 1
+    margin-top 16px
+    margin-right 16px
+
+.sssshare-links
   padding 16px
   text-align center
 
   #view-link, #edit-link
-    width 400px !important
+    width 500px !important
 
 
 .ql-editor, .ql-container, .document
@@ -85,7 +108,7 @@ body
   margin: 16px auto
   z-index: 1200
   position: relative
-  top: -5em
+  margin-top: -64px
 
   .pagebar
     display: flex
