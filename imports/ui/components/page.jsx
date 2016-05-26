@@ -14,6 +14,7 @@ const create = (name) => {
 const edit = (document) => {
   document.editing = Meteor.userId();
   Meteor.call('document.update', document);
+  text = document.text;
   dirty.set(false);
 };
 
@@ -40,7 +41,7 @@ const createButtons = (document, name) => {
     return <div>
       <FlatButton label="Edit"
                   onClick={edit.bind(this, document)}
-                  disabled={Documents.helpers.isEditing(document)}
+                  disabled={!Documents.helpers.canEdit(document) || Documents.helpers.isEditing(document)}
                   style={{margin: '14px 0px'}}/>
       <FlatButton label="Cancel" onClick={cancel.bind(this, document)}
                   disabled={!Documents.helpers.isEditing(document)}
@@ -59,7 +60,7 @@ const createButtons = (document, name) => {
 
 const createContent = (document) => {
   if (Documents.helpers.isEditing(document)) {
-    return <ReactQuill theme="snow" value={document.text} onChange={change}/>
+    return <ReactQuill theme="snow" value={text} onChange={change}/>
   } else if (document) {
     return <div dangerouslySetInnerHTML={{__html: document.text}} style={{height: '441px', padding: '16px'}}/>
   } else {
@@ -72,9 +73,11 @@ const Page = ({document, name}) => {
     <Paper className="page" zDepth="2">
       <div className="pagebar">
         <h1>{name}</h1>
+        {/*<EditorToolbar />*/}
         { createButtons(document, name) }
       </div>
       <Divider />
+      {/*<Editor />*/}
       { createContent(document) }
     </Paper>
   )
