@@ -6,6 +6,7 @@ import NavigationCancel from 'material-ui/svg-icons/navigation/cancel';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import AddCircle from 'material-ui/svg-icons/content/add-circle';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import ImagePictureAsPdf from 'material-ui/svg-icons/image/picture-as-pdf';
 import {Documents} from '/imports/api/Documents.js';
 
 var text;
@@ -70,12 +71,25 @@ const toggleFullscreen = function () {
   }
 };
 
+const exportAsPdf = (document) => {
+  var pdf = new jsPDF();
+  pdf.setFontSize(24);
+  pdf.text(15, 15, document.name);
+  pdf.fromHTML($('.page-content').get(0), 15, 20, {
+    'width': 180
+  });
+  pdf.save(document.name + '.pdf');
+};
+
 const createButtons = (document, name) => {
   if (document) {
     return <div className="page-toolbar">
       <div className="button-group">
         <IconButton onClick={toggleFullscreen} disabled={Documents.helpers.isEditing(document)}>
           <Fullscreen/>
+        </IconButton>
+        <IconButton onClick={exportAsPdf.bind(this, document)} disabled={Documents.helpers.isEditing(document)}>
+          <ImagePictureAsPdf />
         </IconButton>
       </div>
       <div className="button-group">
@@ -87,19 +101,19 @@ const createButtons = (document, name) => {
                     disabled={!Documents.helpers.isEditing(document)}>
           <NavigationCancel />
         </IconButton>
-        <IconButton onClick={save.bind(this, document)}
-                    disabled={!dirty.get()}>
+        <IconButton onClick={save.bind(this, document)} disabled={!dirty.get()}>
           <ContentSave />
         </IconButton>
       </div>
     </div>
 
   } else {
-    return <div>
-      <IconButton onClick={create.bind(this, name)}
-                  disabled={name == null} style={{margin: '14px 0px'}}>
-        <AddCircle />
-      </IconButton>
+    return <div className="page-toolbar">
+      <div className="button-group">
+        <IconButton onClick={create.bind(this, name)} disabled={name == null}>
+          <AddCircle />
+        </IconButton>
+      </div>
     </div>
   }
 };
