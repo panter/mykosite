@@ -22,7 +22,7 @@ export default ({header, content, footer}) => {
     <MuiThemeProvider muiTheme={theme}>
       <div>
         <div className="banner">
-          <AppBar showMenuIconButton={false} className="app-bar" zDepth="0"
+          <AppBar showMenuIconButton={false} className="app-bar" zDepth={0}
                   style={{paddingLeft: '16px'}}
                   title="Mykosite" titleStyle={{flex: '0 0 auto', marginRight: '16px'}}>
             <TextField name="page-name" className="page-name" hintText="Page"

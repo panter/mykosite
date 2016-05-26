@@ -54,9 +54,12 @@ const save = (document) => {
 };
 
 const editLink = function (document) {
-  var path = '?' + document.name + '&token=' + document.token;
-  return window.location.host + path;
-}
+  return window.location.host + '/' + document.name + '?token=' + document.token;
+};
+
+const setTitle = (doc) => {
+  document.title = "Mykosite" + (doc ? " " + doc.name : "");
+};
 
 const createMenu = (document) => {
   var items = [];
@@ -160,14 +163,6 @@ const createButtons = (document, name) => {
         <IconButton onClick={edit.bind(this, document)} tooltipPosition="top-left" tooltip="Edit your document"> <EditorModeEdit /> </IconButton>
       </div>)
     }
-    
-  // Abbrechen
-  if (Documents.helpers.isEditing(document)) {
-    result.push(
-      <div className="button-group">
-        <IconButton onClick={cancel.bind(this, document)} tooltipPosition="top-left" tooltip="Discard your changes"> <NavigationCancel /> </IconButton>
-      </div>)
-  }
 
   // Save
   if (dirty.get()) {
@@ -177,7 +172,15 @@ const createButtons = (document, name) => {
       </div>)
   }
 
-  if (!dirty.get()) {
+  // Cancel
+  if (Documents.helpers.isEditing(document)) {
+    result.push(
+      <div className="button-group">
+        <IconButton onClick={cancel.bind(this, document)} tooltipPosition="top-left" tooltip="Discard your changes"> <NavigationCancel /> </IconButton>
+      </div>)
+  }
+
+  if (!Documents.helpers.isEditing(document)) {
     result.push(<div className="button-group">{ createMenu(document) }</div>)
   }
   return <div className="page-toolbar">{result}</div>
@@ -188,6 +191,7 @@ const zoomChange = function (e, value) {
   zoom.set(value)
 }
 const createContent = (document) => {
+  setTitle(document);
   if (Documents.helpers.isEditing(document)) {
     return <ReactQuill theme="snow" value={text} onChange={change}/>
   } else if (document) {
@@ -223,7 +227,7 @@ const createContent = (document) => {
 
 const Page = ({document, name}) => {
   return (
-    <Paper className="page" zDepth="2">
+    <Paper className="page" zDepth={2}>
       <div className="pagebar">
         <h1>{name}</h1>
         { createButtons(document, name) }
