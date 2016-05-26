@@ -71,14 +71,24 @@ body
       padding: 16px
       flex-grow: 1
 
-    button
+    .page-toolbar
       flex-shrink: 1
-      margin: 14px 0 !important
+
+      .button-group
+        display: inline-block
+        margin-right: 16px
+
+        button
+          margin: 14px 0 !important
+
+          svg
+            vertical-align: middle
 
   .page-content
     min-height: 441px
     padding: 16px
     overflow: auto
+    background-color: white
 
     img
       max-width: 100%
