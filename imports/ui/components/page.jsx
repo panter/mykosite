@@ -41,13 +41,11 @@ const createButtons = (document, name) => {
     return <div>
       <FlatButton label="Edit"
                   onClick={edit.bind(this, document)}
-                  disabled={!Documents.helpers.canEdit(document) || Documents.helpers.isEditing(document)}
-                  style={{margin: '14px 0px'}}/>
+                  disabled={!Documents.helpers.canEdit(document) || Documents.helpers.isEditing(document)}  />
       <FlatButton label="Cancel" onClick={cancel.bind(this, document)}
-                  disabled={!Documents.helpers.isEditing(document)}
-                  style={{margin: '14px 0px'}}/>
+                  disabled={!Documents.helpers.isEditing(document)}/>
       <FlatButton label="Save" onClick={save.bind(this, document)}
-                  disabled={!dirty.get()} style={{margin: '14px 0px'}}/>
+                  disabled={!dirty.get()}/>
     </div>
 
   } else {
@@ -62,9 +60,9 @@ const createContent = (document) => {
   if (Documents.helpers.isEditing(document)) {
     return <ReactQuill theme="snow" value={text} onChange={change}/>
   } else if (document) {
-    return <div dangerouslySetInnerHTML={{__html: document.text}} style={{height: '441px', padding: '16px'}}/>
+    return <div className="page-content" dangerouslySetInnerHTML={{__html: document.text}}/>
   } else {
-    return <div style={{height: '441px', padding: '16px'}}/>
+    return <div className="page-content"/>
   }
 };
 
