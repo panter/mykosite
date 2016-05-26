@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatButton, TextField, Paper, RaisedButton} from 'material-ui';
+import {Tabs, Tab, FlatButton, TextField, Paper, RaisedButton} from 'material-ui';
 import { FacebookCount } from "react-social";
 // see https://github.com/olahol/react-social
 import { FacebookButton, TwitterButton, GooglePlusButton, PinterestButton, LinkedInButton, RedditButton, VKontakteButton, EmailButton, XingButton, TumblrButton} from "react-social"
@@ -23,24 +23,30 @@ const viewLink = function (document) {
     return <a href={path}>{window.location.host}{path}</a>;
 }
 
-
-//const Links = ({document}) => {
-const Links = ({document}) => {
-  return {
-    componentDidMount() {
-      new Clipboard(".clipboard");
-      },
-
-  render() {
-  if (!document || Documents.helpers.isEditing(document)) {
-    return <div></div>
-  }
-  return (<Paper className="links section">
-      <span className="copy-links">
-          <TextField id="view-link" floatingLabelText="Share link" value={viewLink(document)} style={{width: '70%'}}/>
+var shareLinks = (document) => (
+  <Paper className="share-links section">
+    <Tabs>
+      <Tab label="Share view link" >
+        <div>
+          <TextField id="view-link" floatingLabelText="Share link" value={viewLink(document)} style={{width: '400px'}}/>
           <FlatButton className="clipboard" data-clipboard-target="#view-link" icon={<CopyIcon/>}/>
-      </span>
-      <span className="share-buttons">
+        </div>
+    </Tab>
+    <Tab label="Share edit link" >
+        <div>
+            <h2>!! EVERYBODY WHO HAS THIS LINK CAN EDIT AND DELETE THE DOCUMENT !!</h2>
+            <p>
+           <TextField id="edit-link" floatingLabelText="Edit link" value={editLink(document)} style={{width: '400px'}} />
+           <FlatButton className="clipboard" data-clipboard-target="#edit-link" icon={<CopyIcon/>}/>
+            </p>
+        </div>
+      </Tab>
+    </Tabs>
+  </Paper>
+)  
+
+var shareButtons = (document) => (
+  <div className="share-buttons section">
           <FacebookButton>
               <div dangerouslySetInnerHTML={{__html: icons('facebook')}}/>
           </FacebookButton>
@@ -68,14 +74,26 @@ const Links = ({document}) => {
           <TumblrButton>
               <div dangerouslySetInnerHTML={{__html: icons('tumblr')}}/>
           </TumblrButton>
-      </span>
-    <Badge badgeContent={document.watchingCount} secondary={true} className="badge" > <EyeIcon /> </Badge>
-    <Badge badgeContent={document.visitorsCount} secondary={true} className="badge" > <PeopleIcon /> </Badge>
-      <span className="copy-links">
-        <TextField id="edit-link" floatingLabelText="Edit link" value={editLink(document)} style={{width: '70%'}} />
-        <FlatButton className="clipboard" data-clipboard-target="#edit-link" icon={<CopyIcon/>}/>
-      </span>
-  </Paper>)
+  </div>
+)
+
+
+//const Links = ({document}) => {
+const Links = ({document}) => {
+  return {
+    componentDidMount() {
+      new Clipboard(".clipboard");
+    },
+
+  render() {
+  if (!document || Documents.helpers.isEditing(document)) {
+    return <div></div>
+  }
+  return (
+    <div>
+      {shareButtons(document)}
+      {shareLinks(document)}
+    </div>)
     }
     }
 }
