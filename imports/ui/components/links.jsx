@@ -15,14 +15,9 @@ const viewLink = function (document) {
     var path = '/' + document.name;
     return window.location.host + path;
 }
-var shareLink = (document) => (
-  <Paper className='share-link section'>
-    <TextField id="view-link" floatingLabelText="Share link" value={viewLink(document)} style={{width: '400px'}}/>
-    <IconButton className="clipboard" data-clipboard-target="#view-link"><CopyIcon/></IconButton>
-  </Paper>
-)
 
 var shareButtons = (document) => (
+  <div>
   <span className="share-buttons section">
           <FacebookButton>
               <div dangerouslySetInnerHTML={{__html: icons('facebook')}}/>
@@ -51,11 +46,15 @@ var shareButtons = (document) => (
           <TumblrButton>
               <div dangerouslySetInnerHTML={{__html: icons('tumblr')}}/>
           </TumblrButton>
-  </span>
+
+          <IconButton className="clipboard" data-clipboard-target="#view-link"><CopyIcon/></IconButton>
+      </span>
+          <input type="text" id="view-link" value={viewLink(document)} style={{position: 'absolute', left: '0px', top: '-400px'}} />
+
+  </div>
 )
 
 
-//const Links = ({document}) => {
 const Links = () => {
   return {
     componentDidMount() {
@@ -70,7 +69,6 @@ const Links = () => {
     }
     return (
       <div className="footer">
-        {shareLink(document)}
         {shareButtons(document)}
       </div>)
    }

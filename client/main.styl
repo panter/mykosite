@@ -44,23 +44,22 @@ body
   fill white
 
 .share-buttons
+  center(1024px)
+  position relative
   text-align: center
   button
-    //float: left
+    height 64px 
     width 64px
     border: none
-    background-color: none
+    background-color white
     padding 0
     margin 3px
 
-
-.footer
-  stack()
-  .share-link
-    col(1/2)
-
-  .share-buttons
-    col(1/2)
+  .clipboard
+    height 64px !important
+    width 64px !important
+    background-color white !important
+    top -20px
 
 .share-link
   text-align: center
