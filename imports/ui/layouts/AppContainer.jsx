@@ -7,11 +7,15 @@ import {AppBar, FlatButton} from 'material-ui';
 import Links from '/imports/ui/containers/links.js'
 
 const changeName = _.debounce((name) => {
-  FlowRouter.setQueryParams({ page: name ? name : null });
+  FlowRouter.withReplaceState( () => {
+    FlowRouter.go('/' + name);
+    Session.set({documentName: name});
+  })
 }, 200);
 
 const getName = () => {
-  return FlowRouter.getQueryParam('page');
+  return FlowRouter.current().path.substr(1)
+  // return FlowRouter.getQueryParam('page');
 }
 
 export default ({header, content, footer}) => {

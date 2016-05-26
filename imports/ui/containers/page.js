@@ -3,10 +3,9 @@ import Page from '/imports/ui/components/page.jsx'
 import { Documents } from '/imports/api/Documents.js'
 
 function composer (props, onData) {
-  const name = FlowRouter.getQueryParam('page');
-  subscription = Subs.subscribe('documentsByName', name);
-  if (subscription.ready()) {
-    const document = Documents.findOne({ name: name });
+  const handle = Subs.subscribe('documentsByName', Session.get('documentName'));
+  if (handle.ready()) {
+    const document = Documents.findOne({ name: Session.get('documentName') });
     onData(null, {document, name});
   }
 }
