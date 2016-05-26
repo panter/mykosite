@@ -1,3 +1,4 @@
+import './material-ui.js'
 import './subs.jsx'
 import './routers.jsx'
 import '/imports/api/Users.js'
