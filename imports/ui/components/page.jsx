@@ -96,8 +96,7 @@ const createMenu = (document) => {
 };
 
 $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', function () {
-  console.log($('.page-content'))
-  $('.page-content').toggleClass('fullscreen-on')
+  $('.fullscreen-canvas').toggleClass('fullscreen-on');
 });
 
 const toggleFullscreen = function () {
@@ -176,7 +175,9 @@ const createButtons = (document, name) => {
 };
 
 var zoom = new ReactiveVar(0.25)
+
 const zoomChange = function (e, value) {
+  console.log(value)
   zoom.set(value)
 };
 
@@ -193,7 +194,7 @@ const createContent = (document) => {
     </div>)
   } else {
     if (!FlowRouter.current().params.docName) {
-      return <div className="page-content">
+      return <div className="page-content" style={{ zoom: (zoom.get() * 300).toString() + '%'}}>
         <h1>Welcome to airySite!</h1>
         <p>On this site you can quickly publish your own content in real-time!</p>
         <p>Please start typing a name for your new page in the 'Page' search field on top of this page. If the page
@@ -202,7 +203,7 @@ const createContent = (document) => {
       </div>
     }
 
-    return <div className="page-content">
+    return <div className="page-content" style={{ zoom: (zoom.get() * 300).toString() + '%'}}>
       <h1>This page does not exist (yet)</h1>
       <p>
         <ul>
@@ -218,15 +219,22 @@ const createContent = (document) => {
   }
 };
 
+const isZoomSupported = () => {
+  const element = document.createElement('div');
+  return 'zoom' in element.style;
+};
+
 const Page = ({document, name}) => {
+  const hasZoom = isZoomSupported();
   return (
     <Paper className="page" zDepth={2}>
       <div className="pagebar">
         <h1>{name}</h1>
         { createButtons(document, name) }
       </div>
-      <div className="fullscreen-canvas">
-        <Slider defaultValue={0.5} className="zoom-slider" onChange={zoomChange}/>
+      <Divider className={hasZoom ? 'hidden' : ''} />
+      <div className={'fullscreen-canvas' + (hasZoom ? ' zoomable' : '')}>
+        <Slider defaultValue={0.5} className={'zoom-slider' + (hasZoom ? '' : ' hidden')} onChange={zoomChange}/>
         { createContent(document) }
       </div>
     </Paper>
