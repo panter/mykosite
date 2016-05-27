@@ -101,7 +101,7 @@ $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFu
 });
 
 const toggleFullscreen = function () {
-  var el = $('.page-content')[0];
+  var el = $('.fullscreen-canvas')[0];
   if (!document.fullscreenElement &&    // alternative standard method
     !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {  // current working methods
     if (el.requestFullscreen) {
@@ -178,14 +178,14 @@ const createButtons = (document, name) => {
 var zoom = new ReactiveVar(0.25)
 const zoomChange = function (e, value) {
   zoom.set(value)
-}
+};
+
 const createContent = (document) => {
   setTitle(document);
   if (Documents.helpers.isEditing(document)) {
     return <ReactQuill theme="snow" value={text} onChange={change}/>
   } else if (document) {
     return (<div className="page-content">
-      <Slider defaultValue={0.25} className="zoom-slider" onChange={zoomChange.bind(this)}/>
       <div dangerouslySetInnerHTML={{__html: document.text}} style={{ zoom: (zoom.get() * 300).toString() + '%'}}/>
       <Badge badgeContent={document.watchingCount} primary={true} className="watching-badge badge"> <EyeIcon /> </Badge>
       <Badge badgeContent={document.visitorsCount} secondary={true} className="visitors-badge badge"> <PeopleIcon />
@@ -195,7 +195,7 @@ const createContent = (document) => {
     if (!FlowRouter.current().params.docName) {
       return <div className="page-content">
         <h1>Welcome to airySite!</h1>
-        <p>On this site you can quickly publish your own content and in real-time!</p>
+        <p>On this site you can quickly publish your own content in real-time!</p>
         <p>Please start typing a name for your new page in the 'Page' search field on top of this page. If the page
           exist, it will be immediately displayed. If the page does not exist, you can create your own page...</p>
         <p>...just follow the short instructions that will appear.</p>
@@ -225,8 +225,10 @@ const Page = ({document, name}) => {
         <h1>{name}</h1>
         { createButtons(document, name) }
       </div>
-      <Divider />
-      { createContent(document) }
+      <div className="fullscreen-canvas">
+        <Slider defaultValue={0.5} className="zoom-slider" onChange={zoomChange}/>
+        { createContent(document) }
+      </div>
     </Paper>
   )
 };
