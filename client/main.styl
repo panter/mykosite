@@ -3,6 +3,9 @@
 // see https://github.com/jescalan/rupture#what-is-a-measure
 @import '../node_modules/rupture/rupture/index.styl'
 
+.hidden
+  display: none !important
+
 body
   font-family 'Roboto', sans-serif
   margin 0
@@ -163,10 +166,10 @@ body
 
     .page-toolbar
       flex-shrink: 1
+      padding-right: 16px
 
       .button-group
         display: inline-block
-        margin-right: 16px
 
         svg
           vertical-align: middle
