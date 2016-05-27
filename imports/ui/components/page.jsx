@@ -58,7 +58,7 @@ const editLink = function (document) {
 };
 
 const setTitle = (doc) => {
-  document.title = "Mykosite" + (doc ? " " + doc.name : "");
+  document.title = "airySite" + (doc ? " " + doc.name : "");
 };
 
 const createMenu = (document) => {
@@ -204,7 +204,7 @@ const createContent = (document) => {
   } else {
     if (!FlowRouter.current().params.docName) {
       return <div className="page-content">
-          <h1>Welcome to mykoSite!</h1>
+          <h1>Welcome to airySite!</h1>
           <p>On this site you can quickly publish your own content and in real-time!</p>
           <p>Please start typing a name for your new page in the 'Page' search field on top of this page. If the page exist, it will be immediately displayed. If the page does not exist, you can create your own page...</p>
           <p>...just follow the short instructions that will appear.</p>
